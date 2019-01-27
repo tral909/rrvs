@@ -1,23 +1,28 @@
-package ru.regorov.rrvs.model;
+package ru.regorov.rrvs.to;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "user")
-public class User extends AbstractNamedEntity {
+public class UserTo extends BaseTo {
+    private String name;
 
     private String login;
 
     private String password;
 
-    public User() {
+    public UserTo() {
     }
 
-    public User(Integer id, String name, String login, String password) {
-        super(id, name);
+    public UserTo(Integer id, String name, String login, String password) {
+        super(id);
+        this.name = name;
         this.login = login;
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -38,9 +43,8 @@ public class User extends AbstractNamedEntity {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "UserTo{" +
+                "name='" + name + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
