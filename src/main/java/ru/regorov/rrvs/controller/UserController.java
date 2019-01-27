@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.to.UserTo;
+
 import java.util.List;
 
 import static ru.regorov.rrvs.util.UserUtil.*;
@@ -37,9 +37,9 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<UserTo> create(@RequestBody User user) {
+    public ResponseEntity<UserTo> create(@RequestBody UserTo user) {
         log.info("create user {}", user);
-        UserTo created = asTo(userRepository.save(user));
+        UserTo created = asTo(userRepository.save(createNewFromTo(user)));
         /*URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -49,10 +49,10 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user, @PathVariable Integer id) {
+    public void update(@RequestBody UserTo user, @PathVariable Integer id) {
         log.info("update user {} with id {}", user, id);
         assureIdConsistent(user, id);
-        userRepository.save(user);
+        userRepository.save(asModel(user));
     }
 
     @DeleteMapping("/{id}")

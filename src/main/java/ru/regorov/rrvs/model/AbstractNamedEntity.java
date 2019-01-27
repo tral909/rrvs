@@ -2,10 +2,7 @@ package ru.regorov.rrvs.model;
 
 import ru.regorov.rrvs.common.HasId;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -13,7 +10,7 @@ import javax.validation.constraints.Size;
 public abstract class AbstractNamedEntity implements HasId {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     @NotBlank

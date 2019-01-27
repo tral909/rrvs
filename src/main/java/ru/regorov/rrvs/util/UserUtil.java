@@ -14,6 +14,10 @@ public class UserUtil {
         return new User(null, newUser.getName(), newUser.getLogin(), newUser.getPassword());
     }
 
+    public static User asModel(UserTo userTo) {
+        return new User(userTo.getId(), userTo.getName(), userTo.getLogin(), userTo.getPassword());
+    }
+
     public static UserTo asTo(User user) {
         return new UserTo(user.getId(), user.getName(), user.getLogin(), user.getPassword());
     }
