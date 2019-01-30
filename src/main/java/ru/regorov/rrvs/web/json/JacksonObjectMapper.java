@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.controller.json;
+package ru.regorov.rrvs.web.json;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,6 +17,7 @@ public class JacksonObjectMapper extends ObjectMapper {
         setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     public static ObjectMapper getMapper() {

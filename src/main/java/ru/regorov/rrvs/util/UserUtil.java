@@ -14,6 +14,10 @@ public class UserUtil {
         return new User(null, newUser.getName(), newUser.getLogin(), newUser.getPassword());
     }
 
+    public static UserTo createNewToFrom(User user) {
+        return new UserTo(null, user.getName(), user.getLogin(), user.getPassword());
+    }
+
     public static User asModel(UserTo userTo) {
         return new User(userTo.getId(), userTo.getName(), userTo.getLogin(), userTo.getPassword());
     }
@@ -25,6 +29,12 @@ public class UserUtil {
     public static List<UserTo> allAsTo(List<User> users) {
         return users.stream()
                 .map(UserUtil::asTo)
+                .collect(Collectors.toList());
+    }
+
+    public static List<User> allAsModel(List<UserTo> users) {
+        return users.stream()
+                .map(UserUtil::asModel)
                 .collect(Collectors.toList());
     }
 }

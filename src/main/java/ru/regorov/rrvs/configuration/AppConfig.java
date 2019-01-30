@@ -1,5 +1,6 @@
 package ru.regorov.rrvs.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import ru.regorov.rrvs.web.json.JacksonObjectMapper;
 
 @Configuration
 public class AppConfig {
@@ -37,8 +39,8 @@ public class AppConfig {
         return dataSource;
     }
 
-    /*@Bean
+    @Bean
     public ObjectMapper objectMapper() {
         return JacksonObjectMapper.getMapper();
-    }*/
+    }
 }
