@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.to.UserTo;
+import ru.regorov.rrvs.util.UserUtil;
 
 import java.util.List;
 
@@ -24,26 +26,22 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping
-    public List<UserTo> getAll() {
+    public List<User> getAll() {
         log.info("getAll user");
-        return allAsTo(userRepository.getAll());
+        return userRepository.getAll();
     }
 
     @GetMapping("/{id}")
-    public UserTo get(@PathVariable Integer id) {
+    public User get(@PathVariable Integer id) {
         log.info("get user {}", id);
-        return asTo(userRepository.get(id));
+        return userRepository.get(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<UserTo> create(@RequestBody UserTo user) {
+    public ResponseEntity<User> create(@RequestBody UserTo user) {
         log.info("create user {}", user);
-        UserTo created = asTo(userRepository.save(createNewFromTo(user)));
-        /*URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);*/
+        User created = userRepository.save(createNewFromTo(user));
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
@@ -52,7 +50,8 @@ public class UserController {
     public void update(@RequestBody UserTo user, @PathVariable Integer id) {
         log.info("update user {} with id {}", user, id);
         assureIdConsistent(user, id);
-        userRepository.save(asModel(user));
+        User curUser = userRepository.get(id);
+        userRepository.save(UserUtil.updateFromTo(curUser, user));
     }
 
     @DeleteMapping("/{id}")

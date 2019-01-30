@@ -27,12 +27,9 @@ import static ru.regorov.rrvs.UserTestData.*;
 @SpringBootTest
 @AutoConfigureMockMvc(secure = false)
 @Transactional
-//@WebMvcTest(value = UserController.class, secure = false)
 public class UserControllerIntegrationTest {
     private static final String REST_URL = "/users";
 
-/*    @MockBean
-    UserRepository userRepository;*/
     @Autowired
     UserRepository userRepository;
 
@@ -41,17 +38,13 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testGetAll() throws Exception {
-//        when(userRepository.getAll()).thenReturn(Collections.singletonList(new User(2, "", "", "")));
         MvcResult result = mockMvc.perform(get(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        /*for (User user : USERS) {
-            assertUser(result, user);
-        }*/
         String responseTxt = result.getResponse().getContentAsString();
-        List<User> actual = UserUtil.allAsModel(JsonUtil.readValues(responseTxt, UserTo.class));
+        List<User> actual = JsonUtil.readValues(responseTxt, User.class);
         assertMatch(actual, USERS);
     }
 
@@ -62,16 +55,15 @@ public class UserControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        //assertUser(result, USER1);
         String responseTxt = result.getResponse().getContentAsString();
-        User actual = UserUtil.asModel(JsonUtil.readValue(responseTxt, UserTo.class));
+        User actual = JsonUtil.readValue(responseTxt, User.class);
         assertMatch(actual, USER1);
     }
 
     @Test
     public void testCreate() throws Exception {
         User expected = getCreated();
-        UserTo createdTo = UserUtil.createNewToFrom(expected);
+        UserTo createdTo = UserUtil.asTo(expected);
         MvcResult result = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JsonUtil.writeValue(createdTo)))
@@ -79,7 +71,7 @@ public class UserControllerIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
-        User actual = UserUtil.asModel(JsonUtil.readValue(responseTxt, UserTo.class));
+        User actual = JsonUtil.readValue(responseTxt, User.class);
         expected.setId(actual.getId());
         assertMatch(actual, expected);
     }
@@ -87,7 +79,7 @@ public class UserControllerIntegrationTest {
     @Test
     public void testUpdate() throws Exception {
         User expected = getUpdated();
-        UserTo updatedTo = UserUtil.createNewToFrom(expected);
+        UserTo updatedTo = UserUtil.asTo(expected);
         mockMvc.perform(put(REST_URL + "/" + expected.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JsonUtil.writeValue(updatedTo)))
@@ -104,11 +96,4 @@ public class UserControllerIntegrationTest {
                 .andExpect(status().isNoContent());
         assertMatch(userRepository.getAll(), USER2, USER3, USER4, USER5, USER6, USER7, USER8);
     }
-
-/*    private void assertUser(MvcResult result, User user) throws Exception {
-        String responseTxt = result.getResponse().getContentAsString();
-        assertThat(responseTxt, allOf(containsString(user.getName()),
-                containsString(user.getLogin()),
-                containsString(user.getPassword())));
-    }*/
 }

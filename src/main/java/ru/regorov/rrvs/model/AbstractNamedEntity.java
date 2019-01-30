@@ -46,6 +46,6 @@ public abstract class AbstractNamedEntity implements HasId {
 
     @Override
     public String toString() {
-        return String.format("Entity %s (%s, '%s')", getClass().getName(), id, name);
+        return String.format("Entity %s (%s)", getClass().getName(), id);
     }
 }

@@ -1,40 +1,25 @@
 package ru.regorov.rrvs.util;
 
+import ru.regorov.rrvs.model.Role;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.to.UserTo;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserUtil {
     private UserUtil() {
     }
 
     public static User createNewFromTo(UserTo newUser) {
-        return new User(null, newUser.getName(), newUser.getLogin(), newUser.getPassword());
+        return new User(null, newUser.getName(), newUser.getLogin(), newUser.getPassword(), Role.ROLE_USER);
     }
 
-    public static UserTo createNewToFrom(User user) {
-        return new UserTo(null, user.getName(), user.getLogin(), user.getPassword());
-    }
-
-    public static User asModel(UserTo userTo) {
-        return new User(userTo.getId(), userTo.getName(), userTo.getLogin(), userTo.getPassword());
+    public static User updateFromTo(User user, UserTo userTo) {
+        user.setName(userTo.getName());
+        user.setLogin(userTo.getLogin());
+        user.setPassword(userTo.getPassword());
+        return user;
     }
 
     public static UserTo asTo(User user) {
         return new UserTo(user.getId(), user.getName(), user.getLogin(), user.getPassword());
-    }
-
-    public static List<UserTo> allAsTo(List<User> users) {
-        return users.stream()
-                .map(UserUtil::asTo)
-                .collect(Collectors.toList());
-    }
-
-    public static List<User> allAsModel(List<UserTo> users) {
-        return users.stream()
-                .map(UserUtil::asModel)
-                .collect(Collectors.toList());
     }
 }

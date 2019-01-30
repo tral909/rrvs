@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
+import ru.regorov.rrvs.util.ValidationUtil;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class DataJpaUserRepository implements UserRepository {
 
     @Override
     public User get(int id) {
-        return userRepo.getOne(id);
+        return ValidationUtil.checkNotFoundWithId(userRepo.findById(id).orElse(null), id);
     }
 
     @Override
