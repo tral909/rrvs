@@ -6,11 +6,11 @@ import ru.regorov.rrvs.util.exceptions.NotFoundException;
 
 public class ValidationUtil {
 
-    public static <T> T checkNotFoundWithId(T object, int id) {
-        return checkNotFound(object, "id=" + id);
+    private ValidationUtil() {
     }
 
-    private ValidationUtil() {
+    public static <T> T checkNotFoundWithId(T object, int id) {
+        return checkNotFound(object, "id=" + id);
     }
 
     public static void checkNotFoundWithId(boolean found, int id) {

@@ -2,11 +2,13 @@ package ru.regorov.rrvs.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
-import ru.regorov.rrvs.util.ValidationUtil;
 
 import java.util.List;
+
+import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 
 @Repository
 public class DataJpaUserRepository implements UserRepository {
@@ -16,17 +18,24 @@ public class DataJpaUserRepository implements UserRepository {
 
     @Override
     public User get(int id) {
-        return ValidationUtil.checkNotFoundWithId(userRepo.findById(id).orElse(null), id);
+        return checkNotFoundWithId(userRepo.findById(id).orElse(null), id);
     }
 
     @Override
-    public User save(User user) {
+    public User create(User user) {
+        Assert.notNull(user, "user must not be null");
         return userRepo.save(user);
     }
 
     @Override
+    public void update(User user) {
+        Assert.notNull(user, "user must not be null");
+        checkNotFoundWithId(userRepo.save(user), user.getId());
+    }
+
+    @Override
     public void delete(int id) {
-        userRepo.deleteById(id);
+        checkNotFoundWithId(userRepo.delete(id) != 0, id);
     }
 
     @Override

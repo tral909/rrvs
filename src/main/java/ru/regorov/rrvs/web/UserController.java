@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
@@ -13,7 +12,7 @@ import ru.regorov.rrvs.util.UserUtil;
 
 import java.util.List;
 
-import static ru.regorov.rrvs.util.UserUtil.*;
+import static ru.regorov.rrvs.util.UserUtil.createNewFromTo;
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
 
 @RestController
@@ -27,7 +26,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
-        log.info("getAll user");
+        log.info("getAll users");
         return userRepository.getAll();
     }
 
@@ -39,10 +38,9 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<User> create(@RequestBody UserTo user) {
+    public User create(@RequestBody UserTo user) {
         log.info("create user {}", user);
-        User created = userRepository.save(createNewFromTo(user));
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return userRepository.create(createNewFromTo(user));
     }
 
     @PutMapping("/{id}")
@@ -51,7 +49,7 @@ public class UserController {
         log.info("update user {} with id {}", user, id);
         assureIdConsistent(user, id);
         User curUser = userRepository.get(id);
-        userRepository.save(UserUtil.updateFromTo(curUser, user));
+        userRepository.update(UserUtil.updateFromTo(curUser, user));
     }
 
     @DeleteMapping("/{id}")

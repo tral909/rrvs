@@ -5,16 +5,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ru.regorov.rrvs.model.User;
+import ru.regorov.rrvs.model.Restaurant;
 
 @Transactional(readOnly = true)
-public interface CrudUserRepository extends JpaRepository<User, Integer> {
+public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Transactional
     @Modifying
-    @Query("DELETE from User u WHERE u.id=:id")
+    @Query("DELETE from Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
     @Transactional
-    User save(User user);
+    Restaurant save(Restaurant restaurant);
 }
