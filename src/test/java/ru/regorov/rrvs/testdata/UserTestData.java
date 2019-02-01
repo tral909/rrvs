@@ -1,4 +1,4 @@
-package ru.regorov.rrvs;
+package ru.regorov.rrvs.testdata;
 
 import ru.regorov.rrvs.model.Role;
 import ru.regorov.rrvs.model.User;

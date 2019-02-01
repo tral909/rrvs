@@ -19,25 +19,25 @@ public class RestaurantController {
     static final String REST_URL = "/restaurants";
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    RestaurantRepository restaurantRepo;
 
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("getAll restaurants");
-        return restaurantRepository.getAll();
+        return restaurantRepo.getAll();
     }
 
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable Integer id) {
         log.info("get user {}", id);
-        return restaurantRepository.get(id);
+        return restaurantRepo.get(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant create(@RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
-        return restaurantRepository.create(restaurant);
+        return restaurantRepo.create(restaurant);
     }
 
     @PutMapping("/{id}")
@@ -45,12 +45,12 @@ public class RestaurantController {
     public void update(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
-        restaurantRepository.update(restaurant);
+        restaurantRepo.update(restaurant);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        restaurantRepository.delete(id);
+        restaurantRepo.delete(id);
     }
 }

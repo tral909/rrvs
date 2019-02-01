@@ -10,10 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-import ru.regorov.rrvs.model.User;
-import ru.regorov.rrvs.repository.UserRepository;
-import ru.regorov.rrvs.to.UserTo;
-import ru.regorov.rrvs.util.UserUtil;
+import ru.regorov.rrvs.model.Restaurant;
+import ru.regorov.rrvs.repository.RestaurantRepository;
 import ru.regorov.rrvs.web.json.JsonUtil;
 
 import java.util.List;
@@ -21,79 +19,77 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.regorov.rrvs.testdata.UserTestData.*;
+import static ru.regorov.rrvs.testdata.RestaurantTestData.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc(secure = false)
 @Transactional
-public class UserControllerIntegrationTest {
-    private static final String REST_URL = "/users";
+public class RestaurantControllerIntegrationTest {
+    private static final String REST_URL = "/restaurants";
 
     @Autowired
-    UserRepository userRepository;
+    MockMvc mockMvc;
 
     @Autowired
-    private MockMvc mockMvc;
+    RestaurantRepository restaurantRepo;
 
     @Test
     public void testGetAll() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
-        List<User> actual = JsonUtil.readValues(responseTxt, User.class);
-        assertMatch(actual, USERS);
+        List<Restaurant> actual = JsonUtil.readValues(responseTxt, Restaurant.class);
+        assertMatch(actual, restaurantRepo.getAll());
     }
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + USER1_ID)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
-        User actual = JsonUtil.readValue(responseTxt, User.class);
-        assertMatch(actual, USER1);
+        Restaurant actual = JsonUtil.readValue(responseTxt, Restaurant.class);
+        assertMatch(actual, RESTAURANT1);
     }
 
     @Test
     public void testCreate() throws Exception {
-        User expected = getCreated();
-        UserTo createdTo = UserUtil.asTo(expected);
+        Restaurant created = getCreated();
         MvcResult result = mockMvc.perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(JsonUtil.writeValue(createdTo)))
+                .content(JsonUtil.writeValue(created))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
-        User actual = JsonUtil.readValue(responseTxt, User.class);
-        expected.setId(actual.getId());
-        assertMatch(actual, expected);
+        Restaurant actual = JsonUtil.readValue(responseTxt, Restaurant.class);
+        created.setId(actual.getId());
+        assertMatch(actual, created);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        User expected = getUpdated();
-        UserTo updatedTo = UserUtil.asTo(expected);
-        mockMvc.perform(put(REST_URL + "/" + expected.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(JsonUtil.writeValue(updatedTo)))
+        Restaurant updated = getUpdated();
+        mockMvc.perform(put(REST_URL + "/" + updated.getId())
+                .content(JsonUtil.writeValue(updated))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(userRepository.get(expected.getId()), expected);
+        assertMatch(restaurantRepo.get(updated.getId()), updated);
     }
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/" + USER1_ID)
+        mockMvc.perform(delete(REST_URL + "/" + RESTNT1_ID)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(userRepository.getAll(), USER2, USER3, USER4, USER5, USER6, USER7, USER8);
+        assertMatch(restaurantRepo.getAll(), RESTAURANT2, RESTAURANT3, RESTAURANT4, RESTAURANT5);
     }
 }
