@@ -22,7 +22,6 @@ public class Menu extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-
     public Menu() {
     }
 
