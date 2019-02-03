@@ -1,10 +1,10 @@
 package ru.regorov.rrvs.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -16,16 +16,15 @@ public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     private Integer price;
 
-/*    @NotNull
+    @NotNull
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "menu_id", nullable = false)
-    private Menu menu;*/
+    private Menu menu;
 
     public Dish() {
     }
 
-/*
     public Dish(Integer id, String name, Integer price, Menu menu) {
         super(id, name);
         this.price = price;
@@ -48,7 +47,6 @@ public class Dish extends AbstractNamedEntity {
         this.menu = menu;
     }
 
-
     @Override
     public String toString() {
         return "Dish{" +
@@ -57,5 +55,5 @@ public class Dish extends AbstractNamedEntity {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 '}';
-    }*/
+    }
 }

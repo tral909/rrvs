@@ -5,7 +5,6 @@ import ru.regorov.rrvs.model.Restaurant;
 
 import java.util.List;
 
-@Repository
 public interface RestaurantRepository {
 
     Restaurant get(int id);

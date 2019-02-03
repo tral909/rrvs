@@ -9,6 +9,9 @@ import static ru.regorov.rrvs.web.json.JacksonObjectMapper.getMapper;
 
 public class JsonUtil {
 
+    private JsonUtil() {
+    }
+
     public static <T> List<T> readValues(String json, Class<T> type) {
         ObjectReader reader = getMapper().readerFor(type);
         try {

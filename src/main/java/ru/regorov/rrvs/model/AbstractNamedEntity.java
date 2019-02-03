@@ -1,17 +1,12 @@
 package ru.regorov.rrvs.model;
 
-import ru.regorov.rrvs.common.HasId;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
-public abstract class AbstractNamedEntity implements HasId {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank
     @Size(min = 2, max = 100)
