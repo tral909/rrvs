@@ -7,31 +7,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.regorov.rrvs.repository.DishRepository;
-import ru.regorov.rrvs.to.DishTo;
+import ru.regorov.rrvs.model.Menu;
+import ru.regorov.rrvs.repository.MenuRepository;
 
 import java.util.List;
 
-import static ru.regorov.rrvs.util.DishUtil.asTo;
-
 @RestController
-@RequestMapping(DishController.REST_URL)
-public class DishController {
+@RequestMapping(MenuController.REST_URL)
+public class MenuController {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    static final String REST_URL = "/dishes";
+    static final String REST_URL = "/menus";
 
     @Autowired
-    DishRepository dishRepo;
+    MenuRepository menuRepo;
 
     @GetMapping
-    public List<DishTo> getAll() {
-        log.info("getAll dishes");
-        return asTo(dishRepo.getAll());
+    public List<Menu> getAll() {
+        log.info("getAll menus");
+        return menuRepo.getAll();
     }
 
     @GetMapping("/{id}")
-    public DishTo get(@PathVariable Integer id) {
-        log.info("get dish {}", id);
-        return asTo(dishRepo.get(id));
+    public Menu get(@PathVariable Integer id) {
+        log.info("get menu {}", id);
+        return menuRepo.get(id);
     }
 }

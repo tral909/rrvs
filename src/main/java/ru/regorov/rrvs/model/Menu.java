@@ -20,6 +20,7 @@ public class Menu extends AbstractBaseEntity {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    //@JsonIgnore
     private Restaurant restaurant;
 
     public Menu() {

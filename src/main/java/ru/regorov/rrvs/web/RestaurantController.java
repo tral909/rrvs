@@ -29,21 +29,21 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable Integer id) {
-        log.info("get user {}", id);
+        log.info("get restaurant {}", id);
         return restaurantRepo.get(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant create(@RequestBody Restaurant restaurant) {
-        log.info("create {}", restaurant);
+        log.info("create restaurant {}", restaurant);
         return restaurantRepo.create(restaurant);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void update(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
-        log.info("update {}", restaurant);
+        log.info("update restaurant {} with id {}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantRepo.update(restaurant);
     }
@@ -51,6 +51,7 @@ public class RestaurantController {
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
+        log.info("delete restaurant {}", id);
         restaurantRepo.delete(id);
     }
 }

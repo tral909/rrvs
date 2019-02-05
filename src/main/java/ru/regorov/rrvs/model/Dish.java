@@ -17,9 +17,10 @@ public class Dish extends AbstractNamedEntity {
     private Integer price;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "menu_id", nullable = false)
+    //@JsonIgnore
     private Menu menu;
 
     public Dish() {
