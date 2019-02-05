@@ -2,9 +2,11 @@ package ru.regorov.rrvs.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
@@ -19,6 +21,9 @@ public class Restaurant extends AbstractNamedEntity{
     @Size(min = 5, max = 200)
     @Column(name = "address", nullable = false)
     private String address;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Menu> menus;
 
     public Restaurant() {
     }
@@ -43,6 +48,14 @@ public class Restaurant extends AbstractNamedEntity{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 
     @Override

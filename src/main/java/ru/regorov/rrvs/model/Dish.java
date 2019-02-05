@@ -1,5 +1,6 @@
 package ru.regorov.rrvs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -20,7 +21,7 @@ public class Dish extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "menu_id", nullable = false)
-    //@JsonIgnore
+    @JsonIgnore
     private Menu menu;
 
     public Dish() {
@@ -51,9 +52,8 @@ public class Dish extends AbstractNamedEntity {
     @Override
     public String toString() {
         return "Dish{" +
-                "price=" + price +
-                ", menu=" + menu +
-                ", id=" + id +
+                "id=" + id +
+                ", price=" + price +
                 ", name='" + name + '\'' +
                 '}';
     }

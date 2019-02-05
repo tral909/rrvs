@@ -3,6 +3,7 @@ package ru.regorov.rrvs.repository.datajpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
 
@@ -24,6 +25,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public List<Restaurant> getAll() {
         return restaurantRepo.findAll();
+    }
+
+    @Override
+    public List<Menu> findByRestIdMenus(int id) {
+        return restaurantRepo.findByRestIdMenus(id);
     }
 
     @Override

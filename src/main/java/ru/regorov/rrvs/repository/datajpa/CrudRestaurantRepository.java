@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
@@ -17,4 +20,8 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Transactional
     Restaurant save(Restaurant restaurant);
+
+    @Query("SELECT m FROM Restaurant r JOIN r.menus m WHERE r.id=?1")
+    List<Menu> findByRestIdMenus(int id);
+
 }
