@@ -1,0 +1,147 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# RRVS
+
+RestauRant Vote System is a simple REST API allowing users view menus of each restaurant and vote in them.
+Admins could update restaurants, menus and dishes.
+
+## Restaurants collection [/restaurants]
+
+### List all restaurants [GET]
+
+Получить все рестораны
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+              "id" : 1,
+              "name" : "CIN CIN",
+              "phone" : "+7(495)2236547",
+              "address" : "г. Москва, ул. Мирская, д. 12"
+        }, {
+              "id" : 2,
+              "name" : "Старый город",
+              "phone" : "+7(495)1245298",
+              "address" : "г. Москва, Старый Петровско-Разумовский проезд, д. 21/3"
+        }, {
+              "id" : 3,
+              "name" : "Obed.ru",
+              "phone" : "+7(495)7778878",
+              "address" : "г. Москва, уд. Строителей, д. 34"
+        }, {
+              "id" : 4,
+              "name" : "Клевер",
+              "phone" : "+7(4922)389104",
+              "address" : "г. Владимир, ул. Красная, д. 15"
+        }, {
+              "id" : 5,
+              "name" : "Golden cock",
+              "phone" : "+8(0456)25567890",
+              "address" : "Riga, Skarnu iela, 22"
+        } ]
+
+
+### List restaurant by id [GET /restaurant/1]
+
+Получить ресторан с id=1
+
++ Response 200 (application/json;charset=UTF-8)
+
+        {
+              "id" : 1,
+              "name" : "CIN CIN",
+              "phone" : "+7(495)2236547",
+              "address" : "г. Москва, ул. Мирская, д. 12"
+        }
+
+
+### List Menus By Resturant Id [GET /restaurant/1/menus]
+
+Получить все меню ресторана с id=1
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+            "id" : 1,
+            "date" : "2019-01-26"
+        } ]
+    
+
+### List Dishes By Resturant Id And Menu Id [GET /restaurant/1/menus/2]
+
+Получить все блюда из меню с id=2 ресторана с id=1
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+              "id" : 1,
+              "name" : "Картофель жареный",
+              "price" : 35
+        }, {
+              "id" : 8,
+              "name" : "Чай",
+              "price" : 30
+        }, {
+              "id" : 15,
+              "name" : "Пельмени",
+              "price" : 90
+        }, {
+              "id" : 20,
+              "name" : "Суп грибной",
+              "price" : 60
+        }, {
+              "id" : 21,
+              "name" : "Салат овощной",
+              "price" : 45
+        } ]
+
+
+
+### Create a New Question [POST]
+
+FOR EXAMPLE POST METHOD
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
