@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.regorov.rrvs.model.Menu;
+import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
 import ru.regorov.rrvs.to.MenuTo;
@@ -39,16 +39,18 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL)
-    public List<MenuTo> getAllMenusByRestId(@PathVariable Integer restId) {
+    public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
+        log.info("getMenusByRestId {}", restId);
         return asTo(restaurantRepo.findByRestIdMenus(restId));
     }
 
-    @GetMapping("/{mainId}" + MenuController.REST_URL + "/{subId}")
-    public List<Menu> getMenu() {
+    //TODO подумать об REST API в общем, возможно сделать описание в swagger yaml файле
+    //TODO сделать тесты на getAllMenusByRestId, getMenu и в других моделях на текущие контролы
+    @GetMapping("/{restId}" + MenuController.REST_URL + "/{menuId}")
+    public List<Dish> getDishesByRestIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
         //TODO реализовать этот метод
-        //TODO подумать об REST API в общем, возможно сделать описание в swagger yaml файле
-        //TODO сделать тесты на getAllMenusByRestId, getMenu и в других моделях на текущие контролы
-        return null;
+        log.info("getDishesByRestIdAndMenuId (rest={}, menu={})", restId, menuId);
+        return restaurantRepo.findByRestIdAndMenuIdDishes(restId, menuId);
     }
 
     @PostMapping

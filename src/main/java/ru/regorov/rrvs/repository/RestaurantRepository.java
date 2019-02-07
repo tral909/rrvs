@@ -1,5 +1,6 @@
 package ru.regorov.rrvs.repository;
 
+import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 
@@ -18,4 +19,6 @@ public interface RestaurantRepository {
     void delete(int id);
 
     List<Menu> findByRestIdMenus(int restId);
+
+    List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 
@@ -24,4 +25,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("SELECT m FROM Restaurant r JOIN r.menus m WHERE r.id=?1")
     List<Menu> findByRestIdMenus(int id);
 
+    @Query("SELECT d FROM Restaurant r JOIN r.menus m JOIN m.dishes d WHERE r.id=?1 AND m.id=?2")
+    List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
 }
