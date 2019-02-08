@@ -8,6 +8,7 @@ import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
@@ -31,6 +32,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public List<Menu> findByRestIdMenus(int id) {
         return restaurantRepo.findByRestIdMenus(id);
+    }
+
+    @Override
+    public List<Menu> findByRestIdAndDateMenu(int restId, LocalDate date) {
+        return restaurantRepo.findByRestIdAndDateMenu(restId, date);
     }
 
     @Override

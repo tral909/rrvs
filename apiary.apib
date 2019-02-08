@@ -42,9 +42,9 @@ Admins could update restaurants, menus and dishes.
         } ]
 
 
-### List restaurant by id [GET /restaurant/1]
+### List restaurant by id [GET /restaurant/id]
 
-Получить ресторан с id=1
+Получить ресторан
 
 + Response 200 (application/json;charset=UTF-8)
 
@@ -56,9 +56,9 @@ Admins could update restaurants, menus and dishes.
         }
 
 
-### List Menus By Resturant Id [GET /restaurant/1/menus]
+### List menus by restaurant id [GET /restaurant/id/menus]
 
-Получить все меню ресторана с id=1
+Получить все меню ресторана
 
 + Response 200 (application/json;charset=UTF-8)
 
@@ -68,9 +68,9 @@ Admins could update restaurants, menus and dishes.
         } ]
     
 
-### List Dishes By Resturant Id And Menu Id [GET /restaurant/1/menus/2]
+### List dishes by restaurant id and menu id [GET /restaurant/id/menus/id]
 
-Получить все блюда из меню с id=2 ресторана с id=1
+Получить все блюда из меню ресторана
 
 + Response 200 (application/json;charset=UTF-8)
 
@@ -97,7 +97,40 @@ Admins could update restaurants, menus and dishes.
         } ]
 
 
+### List dishes by restaurant id and menu date [GET /restaurant/id/menus/filter?date=yyyy-MM-dd]
 
+Получить все блюда из меню ресторана по дате меню
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+          "id" : 1,
+          "date" : "2019-01-26",
+          "dishes" : [ {
+            "id" : 1,
+            "name" : "Картофель жареный",
+            "price" : 35
+          }, {
+            "id" : 8,
+            "name" : "Чай",
+            "price" : 30
+          }, {
+            "id" : 15,
+            "name" : "Пельмени",
+            "price" : 90
+          }, {
+            "id" : 20,
+            "name" : "Суп грибной",
+            "price" : 60
+          }, {
+            "id" : 21,
+            "name" : "Салат овощной",
+            "price" : 45
+          } ]
+        } ]
+
+        
+        
 ### Create a New Question [POST]
 
 FOR EXAMPLE POST METHOD

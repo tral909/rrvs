@@ -3,17 +3,18 @@ package ru.regorov.rrvs.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.model.Dish;
+import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
-import ru.regorov.rrvs.to.MenuTo;
 import ru.regorov.rrvs.to.RestaurantTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static ru.regorov.rrvs.util.MenuUtil.asTo;
 import static ru.regorov.rrvs.util.RestaurantUtil.asTo;
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
 
@@ -39,9 +40,17 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL)
-    public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
+    public List<Menu> getMenusByRestId(@PathVariable Integer restId) {
         log.info("getMenusByRestId {}", restId);
-        return asTo(restaurantRepo.findByRestIdMenus(restId));
+        return restaurantRepo.findByRestIdMenus(restId);
+    }
+
+    @GetMapping("/{restId}" + MenuController.REST_URL + "/filter")
+    public List<Menu> getMenuByRestIdAndDate(@PathVariable Integer restId,
+                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                             @RequestParam(value = "date") LocalDate date) {
+        log.info("getMenusByRestIdAndDate (restId={}, date={})", restId, date);
+        return restaurantRepo.findByRestIdAndDateMenu(restId, date);
     }
 
     //TODO подумать об REST API в общем, возможно сделать описание в swagger yaml файле

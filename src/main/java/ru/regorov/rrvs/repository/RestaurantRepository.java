@@ -4,6 +4,7 @@ import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RestaurantRepository {
@@ -21,4 +22,6 @@ public interface RestaurantRepository {
     List<Menu> findByRestIdMenus(int restId);
 
     List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
+
+    List<Menu> findByRestIdAndDateMenu(int restId, LocalDate date);
 }
