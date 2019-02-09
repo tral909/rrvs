@@ -35,8 +35,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
-    public List<Menu> findByRestIdAndDateMenu(int restId, LocalDate date) {
-        return restaurantRepo.findByRestIdAndDateMenu(restId, date);
+    public List<Menu> findByRestIdAndDateMenus(int restId, LocalDate date) {
+        return restaurantRepo.findByRestIdAndDateMenus(restId, date);
     }
 
     @Override

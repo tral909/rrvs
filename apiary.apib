@@ -42,7 +42,7 @@ Admins could update restaurants, menus and dishes.
         } ]
 
 
-### List restaurant by id [GET /restaurant/id]
+### List restaurant by id [GET /restaurants/id]
 
 Получить ресторан
 
@@ -56,7 +56,7 @@ Admins could update restaurants, menus and dishes.
         }
 
 
-### List menus by restaurant id [GET /restaurant/id/menus]
+### List menus by restaurant id [GET /restaurants/id/menus]
 
 Получить все меню ресторана
 
@@ -68,7 +68,7 @@ Admins could update restaurants, menus and dishes.
         } ]
     
 
-### List dishes by restaurant id and menu id [GET /restaurant/id/menus/id]
+### List dishes by restaurant id and menu id [GET /restaurants/id/menus/id]
 
 Получить все блюда из меню ресторана
 
@@ -97,7 +97,7 @@ Admins could update restaurants, menus and dishes.
         } ]
 
 
-### List dishes by restaurant id and menu date [GET /restaurant/id/menus/filter?date=yyyy-MM-dd]
+### List dishes by restaurant id and menu date [GET /restaurants/id/menus/filter?date=yyyy-MM-dd]
 
 Получить все блюда из меню ресторана по дате меню
 
@@ -153,7 +153,7 @@ Admins could update restaurants, menus and dishes.
         }
 
 
-### Update restaurant by id [PUT /resturants/id]
+### Update restaurant by id [PUT /restaurants/id]
 
 Обновить информацию о ресторане
 
@@ -169,7 +169,7 @@ Admins could update restaurants, menus and dishes.
 + Response 204
 
 
-### Delete restaurant by id [DELETE /resturants/id]
+### Delete restaurant by id [DELETE /restaurants/id]
 
 Удалить информацию о ресторане
 
@@ -223,7 +223,7 @@ Admins could update restaurants, menus and dishes.
 
 ### Create user [POST]
 
-Создать нового пользоватлея
+Создать нового пользователя
 
 + Request (application/json;charset=UTF-8)
         
@@ -246,7 +246,7 @@ Admins could update restaurants, menus and dishes.
 
 
 
-### Update user by id [PUT /resturants/id]
+### Update user by id [PUT /users/id]
 
 Обновить информацию о пользователе
 
@@ -262,7 +262,7 @@ Admins could update restaurants, menus and dishes.
 + Response 204
 
 
-### Delete user by id [DELETE /resturants/id]
+### Delete user by id [DELETE /users/id]
 
 Удалить информацию о пользователе
 

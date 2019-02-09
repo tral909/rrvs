@@ -30,5 +30,5 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
 
     @Query("SELECT m FROM Restaurant r JOIN r.menus m WHERE r.id=?1 AND m.date=?2")
-    List<Menu> findByRestIdAndDateMenu(int restId, LocalDate date);
+    List<Menu> findByRestIdAndDateMenus(int restId, LocalDate date);
 }

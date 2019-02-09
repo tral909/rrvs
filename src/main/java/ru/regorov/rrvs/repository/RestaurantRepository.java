@@ -23,5 +23,5 @@ public interface RestaurantRepository {
 
     List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
 
-    List<Menu> findByRestIdAndDateMenu(int restId, LocalDate date);
+    List<Menu> findByRestIdAndDateMenus(int restId, LocalDate date);
 }

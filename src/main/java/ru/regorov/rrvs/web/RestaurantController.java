@@ -46,11 +46,11 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL + "/filter")
-    public List<Menu> getMenuByRestIdAndDate(@PathVariable Integer restId,
+    public List<Menu> getMenusByRestIdAndDate(@PathVariable Integer restId,
                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                              @RequestParam(value = "date") LocalDate date) {
         log.info("getMenusByRestIdAndDate (restId={}, date={})", restId, date);
-        return restaurantRepo.findByRestIdAndDateMenu(restId, date);
+        return restaurantRepo.findByRestIdAndDateMenus(restId, date);
     }
 
     //TODO подумать об REST API в общем, возможно сделать описание в swagger yaml файле
