@@ -174,3 +174,96 @@ Admins could update restaurants, menus and dishes.
 Удалить информацию о ресторане
 
 + Response 204
+
+
+## Users collection [/users]
+
+### List all users [GET]
+
+Получить всеx пользователей
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+            "id" : 1,
+            "name" : "tony",
+            "login" : "user",
+            "roles" : [ "ROLE_USER" ]
+          }, {
+            "id" : 2,
+            "name" : "regorov",
+            "login" : "admin",
+            "roles" : [ "ROLE_ADMIN", "ROLE_USER" ]
+          }, {
+            "id" : 3,
+            "name" : "nagorniy",
+            "login" : "nag22",
+            "roles" : [ "ROLE_USER" ]
+          }, {
+            "id" : 4,
+            "name" : "autotest",
+            "login" : "userautotest",
+            "roles" : [ "ROLE_USER" ]
+        } ]
+        
+
+### List user by id [GET /users/id]
+
+Получить пользователя
+
++ Response 200 (application/json;charset=UTF-8)
+
+        {
+          "id" : 1,
+          "name" : "tony",
+          "login" : "user",
+          "roles" : [ "ROLE_USER" ]
+        }
+        
+
+### Create user [POST]
+
+Создать нового пользоватлея
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+          "name" : "newuser",
+          "login" : "newlogin",
+          "password" : "secretkey"
+        }
+
+
+
++ Response 201 (application/json;charset=UTF-8)
+
+        {
+          "id" : 9,
+          "name" : "newuser",
+          "login" : "newlogin",
+          "roles" : [ "ROLE_USER" ]
+        }
+
+
+
+### Update user by id [PUT /resturants/id]
+
+Обновить информацию о пользователе
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+            "name" : "updateduser",
+            "login" : "updatedlogin",
+            "password" : "newsecret"
+        }
+
+
++ Response 204
+
+
+### Delete user by id [DELETE /resturants/id]
+
+Удалить информацию о пользователе
+
++ Response 204
