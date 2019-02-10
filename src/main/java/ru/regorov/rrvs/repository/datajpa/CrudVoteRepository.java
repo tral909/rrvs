@@ -5,15 +5,20 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ru.regorov.rrvs.model.Menu;
+import ru.regorov.rrvs.model.Vote;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
-public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
+public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE from Menu m WHERE m.id=:id")
+    @Query("DELETE from Vote v WHERE v.id=:id")
     int delete(@Param("id") int id);
 
     @Transactional
-    Menu save(Menu menu);
+    Vote save(Vote vote);
+
+    @Query("SELECT v FROM Vote v JOIN v.user WHERE v.user.id=?1")
+    List<Vote> getAll(int userId);
 }

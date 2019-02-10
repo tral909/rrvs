@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.web;
+package ru.regorov.rrvs.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,16 @@ import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
+import ru.regorov.rrvs.to.MenuTo;
 import ru.regorov.rrvs.to.RestaurantTo;
+import ru.regorov.rrvs.util.MenuUtil;
+import ru.regorov.rrvs.util.RestaurantUtil;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.regorov.rrvs.util.RestaurantUtil.asTo;
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
+import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
@@ -30,19 +33,19 @@ public class RestaurantController {
     @GetMapping
     public List<RestaurantTo> getAllRests() {
         log.info("getAll restaurants");
-        return asTo(restaurantRepo.getAll());
+        return RestaurantUtil.asTo(restaurantRepo.getAll());
     }
 
     @GetMapping("/{id}")
     public RestaurantTo getRest(@PathVariable Integer id) {
         log.info("get restaurant {}", id);
-        return asTo(restaurantRepo.get(id));
+        return RestaurantUtil.asTo(restaurantRepo.get(id));
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL)
-    public List<Menu> getMenusByRestId(@PathVariable Integer restId) {
+    public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
         log.info("getMenusByRestId {}", restId);
-        return restaurantRepo.findByRestIdMenus(restId);
+        return MenuUtil.asTo(restaurantRepo.findByRestIdMenus(restId));
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL + "/filter")
@@ -57,15 +60,17 @@ public class RestaurantController {
     //TODO сделать тесты на getAllMenusByRestId, getMenu и в других моделях на текущие контролы
     @GetMapping("/{restId}" + MenuController.REST_URL + "/{menuId}")
     public List<Dish> getDishesByRestIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
-        //TODO реализовать этот метод
         log.info("getDishesByRestIdAndMenuId (rest={}, menu={})", restId, menuId);
         return restaurantRepo.findByRestIdAndMenuIdDishes(restId, menuId);
     }
+
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant createRest(@RequestBody Restaurant restaurant) {
         log.info("create restaurant {}", restaurant);
+        checkNew(restaurant);
         return restaurantRepo.create(restaurant);
     }
 

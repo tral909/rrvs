@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.web;
+package ru.regorov.rrvs.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import java.util.List;
 
 import static ru.regorov.rrvs.util.UserUtil.createNewFromTo;
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
+import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(UserController.REST_URL)
@@ -40,6 +41,7 @@ public class UserController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public User create(@RequestBody UserTo user) {
         log.info("create user {}", user);
+        checkNew(user);
         return userRepository.create(createNewFromTo(user));
     }
 

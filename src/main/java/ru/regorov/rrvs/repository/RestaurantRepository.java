@@ -7,17 +7,7 @@ import ru.regorov.rrvs.model.Restaurant;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RestaurantRepository {
-
-    Restaurant get(int id);
-
-    List<Restaurant> getAll();
-
-    Restaurant create(Restaurant restaurant);
-
-    void update(Restaurant restaurant);
-
-    void delete(int id);
+public interface RestaurantRepository extends AbstractRepository<Restaurant>{
 
     List<Menu> findByRestIdMenus(int restId);
 
