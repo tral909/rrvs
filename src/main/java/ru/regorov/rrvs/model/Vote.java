@@ -1,9 +1,7 @@
 package ru.regorov.rrvs.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +13,8 @@ public class Vote extends AbstractBaseEntity {
 
     @NotNull
     @Column(name = "datetime", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    // параметр pattern = "yyyy-MM-dd HH:mm:ss" не работает
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +25,6 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private User user;
 
     public Vote() {

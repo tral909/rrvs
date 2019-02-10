@@ -1,9 +1,12 @@
 package ru.regorov.rrvs.to;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 public class VoteTo extends BaseTo {
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
 
     private Integer restId;

@@ -42,12 +42,14 @@ public class RestaurantController {
         return RestaurantUtil.asTo(restaurantRepo.get(id));
     }
 
+    //TODO сделать тест
     @GetMapping("/{restId}" + MenuController.REST_URL)
     public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
         log.info("getMenusByRestId {}", restId);
         return MenuUtil.asTo(restaurantRepo.findByRestIdMenus(restId));
     }
 
+    //TODO сделать тест
     @GetMapping("/{restId}" + MenuController.REST_URL + "/filter")
     public List<Menu> getMenusByRestIdAndDate(@PathVariable Integer restId,
                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -56,8 +58,7 @@ public class RestaurantController {
         return restaurantRepo.findByRestIdAndDateMenus(restId, date);
     }
 
-    //TODO подумать об REST API в общем, возможно сделать описание в swagger yaml файле
-    //TODO сделать тесты на getAllMenusByRestId, getMenu и в других моделях на текущие контролы
+    //TODO сделать тест
     @GetMapping("/{restId}" + MenuController.REST_URL + "/{menuId}")
     public List<Dish> getDishesByRestIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
         log.info("getDishesByRestIdAndMenuId (rest={}, menu={})", restId, menuId);
