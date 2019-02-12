@@ -1,5 +1,7 @@
 package ru.regorov.rrvs.web;
 
+import com.jayway.jsonpath.JsonPath;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import ru.regorov.rrvs.web.json.JsonUtil;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,6 +60,50 @@ public class RestaurantControllerIntegrationTest {
         String responseTxt = result.getResponse().getContentAsString();
         Restaurant actual = JsonUtil.readValue(responseTxt, Restaurant.class);
         assertMatch(actual, RESTAURANT1);
+    }
+
+    @Test
+    public void testGetMenusByRestId() throws Exception {
+        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String responseTxt = result.getResponse().getContentAsString();
+        int id = JsonPath.parse(responseTxt).read("$.[0].id");
+        String date = JsonPath.parse(responseTxt).read("$.[0].date");
+        assertThat(id, equalTo(1));
+        assertThat(date, equalTo("2019-01-26"));
+    }
+
+    @Test
+    public void getMenusByRestIdAndDate() throws Exception {
+        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/filter?date=2019-01-26")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String responseTxt = result.getResponse().getContentAsString();
+        int id = JsonPath.parse(responseTxt).read("$.[0].id");
+        String date = JsonPath.parse(responseTxt).read("$.[0].date");
+        int dishesLength = JsonPath.parse(responseTxt).read("$.[0].dishes.length()");
+        //TODO сравнить все поля блюд
+        assertThat(id, equalTo(1));
+        assertThat(date, equalTo("2019-01-26"));
+        assertThat(dishesLength, equalTo(5));
+    }
+
+    @Test
+    public void getDishesByRestIdAndMenuId() throws Exception {
+        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/" + 1)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String responseTxt = result.getResponse().getContentAsString();
+        int dishesLength = JsonPath.parse(responseTxt).read("$.length()");
+        //TODO сравнить все поля блюд
+        assertThat(dishesLength, equalTo(5));
     }
 
     @Test
