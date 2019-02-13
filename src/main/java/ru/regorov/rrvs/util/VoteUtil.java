@@ -5,6 +5,7 @@ import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.model.Vote;
 import ru.regorov.rrvs.to.VoteTo;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,7 @@ public class VoteUtil {
     }
 
     public static VoteTo asTo(Vote vote) {
-        return new VoteTo(vote.getId(), vote.getDateTime(), vote.getRestaurant().getId());
+        return new VoteTo(vote.getId(), vote.getRestaurant().getId());
     }
 
     public static List<VoteTo> asTo(List<Vote> votes) {
@@ -22,8 +23,8 @@ public class VoteUtil {
                 .collect(Collectors.toList());
     }
 
-    public static Vote createFromTo(VoteTo voteTo, Restaurant restaurant, User user) {
-        Vote vote = new Vote(voteTo.getId(), voteTo.getDateTime());
+    public static Vote createFromTo(VoteTo voteTo, LocalDate date, Restaurant restaurant, User user) {
+        Vote vote = new Vote(voteTo.getId(), date);
         vote.setUser(user);
         vote.setRestaurant(restaurant);
         return vote;

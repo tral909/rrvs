@@ -10,9 +10,7 @@ public interface VoteRepository {
 
     List<Vote> getAll(int userId);
 
-    Vote create(VoteTo voteTo, int userId);
-
-    void update(VoteTo voteTo, int userId);
+    void save(VoteTo voteTo, int userId);
 
     void delete(int id, int userId);
 }

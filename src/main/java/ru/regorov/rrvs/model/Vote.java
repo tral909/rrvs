@@ -5,17 +5,17 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote")
 public class Vote extends AbstractBaseEntity {
 
     @NotNull
-    @Column(name = "datetime", nullable = false)
-    // параметр pattern = "yyyy-MM-dd HH:mm:ss" не работает
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime dateTime;
+    @Column(name = "date", nullable = false)
+    // параметр pattern = "yyyy-MM-dd" не работает
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -30,17 +30,17 @@ public class Vote extends AbstractBaseEntity {
     public Vote() {
     }
 
-    public Vote(Integer id, LocalDateTime dateTime) {
+    public Vote(Integer id, LocalDate date) {
         super(id);
-        this.dateTime = dateTime;
+        this.date = date;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Restaurant getRestaurant() {
@@ -63,7 +63,7 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", date=" + date +
                 '}';
     }
 }

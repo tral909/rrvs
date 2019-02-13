@@ -11,7 +11,6 @@ import ru.regorov.rrvs.web.SecurityUtil;
 
 import java.util.List;
 
-import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
 import static ru.regorov.rrvs.util.VoteUtil.asTo;
 
 //TODO сделать тест на этот контроллер
@@ -39,24 +38,13 @@ public class VoteController {
         return asTo(voteRepository.get(id, userId));
     }
 
-    //TODO before 11:00 and after condition - need service with logic
-    //TODO не принимать у клиента вермя, создавать самому в UTC и сохранять в базу
+    //TODO 3 запроса в базу на 1 save (надо бы оптимизировать)
+    //TODO нужен тест на этот метод
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public VoteTo create(@RequestBody VoteTo voteTo) {
+    public void save(@RequestBody VoteTo voteTo) {
         int userId = SecurityUtil.authUserId();
-        log.info("create vote {} with userId={}", voteTo, userId);
-        return asTo(voteRepository.create(voteTo, userId));
-    }
-
-    //TODO возможно этот метод не нужен (можем только создавать и перезатирать голос
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @RequestBody VoteTo voteTo) {
-        int userId = SecurityUtil.authUserId();
-        assureIdConsistent(voteTo, id);
-        log.info("update vote {} with userId={}", voteTo, userId);
-        voteRepository.update(voteTo, userId);
+        log.info("save vote {} with userId={}", voteTo, userId);
+        voteRepository.save(voteTo, userId);
     }
 
     @DeleteMapping("/{id}")
