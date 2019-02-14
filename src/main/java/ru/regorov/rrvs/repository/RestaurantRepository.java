@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface RestaurantRepository extends AbstractRepository<Restaurant>{
+    Restaurant getRef(int id);
 
     List<Menu> findByRestIdMenus(int restId);
 

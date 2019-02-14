@@ -30,6 +30,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
+    public Restaurant getRef(int id) {
+        return restaurantRepo.getOne(id);
+    }
+
+    @Override
     public List<Menu> findByRestIdMenus(int id) {
         return restaurantRepo.findByRestIdMenus(id);
     }

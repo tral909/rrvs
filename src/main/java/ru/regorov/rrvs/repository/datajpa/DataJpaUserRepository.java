@@ -22,6 +22,11 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
+    public User getRef(int id) {
+        return userRepo.getOne(id);
+    }
+
+    @Override
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
         return userRepo.save(user);

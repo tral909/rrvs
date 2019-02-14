@@ -59,7 +59,6 @@ public class VoteController {
         return asTo(voteRepository.get(id, userId));
     }
 
-    //TODO 3 запроса в базу на 1 save (надо бы оптимизировать)
     //TODO нужен тест на этот метод
     @PostMapping
     public void save(@RequestBody VoteTo voteTo) {
@@ -75,10 +74,10 @@ public class VoteController {
     }
 
     private Vote constructVote(VoteTo voteTo, LocalDate date, int userId) {
-        User user = userRepository.get(userId);
+        User user = userRepository.getRef(userId);
         checkNotFoundWithId(user, userId);
         int restId = voteTo.getRestId();
-        Restaurant restaurant = restaurantRepository.get(voteTo.getRestId());
+        Restaurant restaurant = restaurantRepository.getRef(voteTo.getRestId());
         checkNotFoundWithId(restaurant, restId);
         return VoteUtil.createFromTo(voteTo, date, restaurant, user);
     }
