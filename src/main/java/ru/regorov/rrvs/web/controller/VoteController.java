@@ -5,12 +5,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.regorov.rrvs.model.Restaurant;
+import ru.regorov.rrvs.model.User;
+import ru.regorov.rrvs.model.Vote;
+import ru.regorov.rrvs.repository.RestaurantRepository;
+import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.repository.VoteRepository;
 import ru.regorov.rrvs.to.VoteTo;
+import ru.regorov.rrvs.util.VoteUtil;
+import ru.regorov.rrvs.util.exceptions.EndVoteException;
 import ru.regorov.rrvs.web.SecurityUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
+import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 import static ru.regorov.rrvs.util.VoteUtil.asTo;
 
 //TODO сделать тест на этот контроллер
@@ -19,10 +31,19 @@ import static ru.regorov.rrvs.util.VoteUtil.asTo;
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {
     private final Logger log = LoggerFactory.getLogger(getClass());
+
     static final String REST_URL = "/votes";
+
+    private static final LocalTime END_VOTING_TIME = LocalTime.of(11, 0);
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @GetMapping
     public List<VoteTo> getAll() {
@@ -44,7 +65,22 @@ public class VoteController {
     public void save(@RequestBody VoteTo voteTo) {
         int userId = SecurityUtil.authUserId();
         log.info("save vote {} with userId={}", voteTo, userId);
-        voteRepository.save(voteTo, userId);
+        LocalDateTime now = LocalDateTime.now();
+        Optional<Vote> optVote = voteRepository.findByUserIdAndDate(userId, now.toLocalDate());
+        if (now.toLocalTime().isAfter(END_VOTING_TIME)) {
+            throw new EndVoteException("Can not vote or change your choice after " + END_VOTING_TIME);
+        }
+        optVote.ifPresent(vote -> voteTo.setId(vote.getId()));
+        voteRepository.save(constructVote(voteTo, now.toLocalDate(), userId));
+    }
+
+    private Vote constructVote(VoteTo voteTo, LocalDate date, int userId) {
+        User user = userRepository.get(userId);
+        checkNotFoundWithId(user, userId);
+        int restId = voteTo.getRestId();
+        Restaurant restaurant = restaurantRepository.get(voteTo.getRestId());
+        checkNotFoundWithId(restaurant, restId);
+        return VoteUtil.createFromTo(voteTo, date, restaurant, user);
     }
 
     @DeleteMapping("/{id}")
