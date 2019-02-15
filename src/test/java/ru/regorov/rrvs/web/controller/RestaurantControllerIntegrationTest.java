@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.web;
+package ru.regorov.rrvs.web.controller;
 
 import com.jayway.jsonpath.JsonPath;
 
@@ -23,14 +23,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.regorov.rrvs.testdata.RestaurantTestData.*;
+import static ru.regorov.rrvs.web.controller.RestaurantController.REST_URL;
+import static ru.regorov.rrvs.web.testdata.RestaurantTestData.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc(secure = false)
 @Transactional
 public class RestaurantControllerIntegrationTest {
-    private static final String REST_URL = "/restaurants";
 
     @Autowired
     MockMvc mockMvc;

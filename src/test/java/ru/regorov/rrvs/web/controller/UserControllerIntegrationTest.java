@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.web;
+package ru.regorov.rrvs.web.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,14 +21,14 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.regorov.rrvs.testdata.UserTestData.*;
+import static ru.regorov.rrvs.web.controller.UserController.REST_URL;
+import static ru.regorov.rrvs.web.testdata.UserTestData.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc(secure = false)
 @Transactional
 public class UserControllerIntegrationTest {
-    private static final String REST_URL = "/users";
 
     @Autowired
     UserRepository userRepository;

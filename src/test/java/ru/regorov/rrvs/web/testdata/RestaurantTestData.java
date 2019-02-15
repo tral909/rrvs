@@ -1,4 +1,4 @@
-package ru.regorov.rrvs.testdata;
+package ru.regorov.rrvs.web.testdata;
 
 import ru.regorov.rrvs.model.Restaurant;
 
