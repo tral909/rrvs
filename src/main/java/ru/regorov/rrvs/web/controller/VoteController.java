@@ -25,7 +25,6 @@ import java.util.Optional;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 import static ru.regorov.rrvs.util.VoteUtil.asTo;
 
-//TODO добавить в доку
 @RestController
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {

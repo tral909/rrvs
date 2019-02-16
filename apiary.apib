@@ -267,3 +267,70 @@ Admins could update restaurants, menus and dishes.
 Удалить информацию о пользователе
 
 + Response 204
+
+
+## Votes collection [/votes]
+
+### List all votes [GET]
+
+Получить все голоса
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+          "id" : 1,
+          "restId" : 1
+        }, {
+          "id" : 2,
+          "restId" : 3
+        } ]
+        
+
+### List vote by id [GET /votes/id]
+
+Получить голос
+
++ Response 200 (application/json;charset=UTF-8)
+
+        {
+          "id" : 1,
+          "restId" : 1
+        }
+        
+
+### Create vote [POST]
+
+Проголосовать (голосовать можно до 11:00,
+голоса до изменяют предыдущий выбор, голоса после не принимаются)
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+          "restId" : 3
+        }
+
++ Response 201 (application/json;charset=UTF-8)
+
+        {
+          "id" : 9,
+          "name" : "newuser",
+          "login" : "newlogin",
+          "roles" : [ "ROLE_USER" ]
+        }
+
++ Response 500 (application/json;charset=UTF-8)
+
+        {
+          "timestamp" : "2019-02-16T20:48:24.005+0000",
+          "status" : 500,
+          "error" : "Internal Server Error",
+          "message" : "Can not vote or change your choice after 11:00",
+          "path" : "/votes"
+        }
+
+
+### Delete vote by id [DELETE /votes/id]
+
+Удалить голос
+
++ Response 204
