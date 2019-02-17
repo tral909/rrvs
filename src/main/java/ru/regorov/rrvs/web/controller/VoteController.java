@@ -58,7 +58,6 @@ public class VoteController {
     }
 
     //TODO нужен тест на этот метод
-    //TODO переделать картинку с БД (vote datetime->date field)
     @PostMapping
     public void save(@RequestBody VoteTo voteTo) {
         int userId = SecurityUtil.authUserId();
