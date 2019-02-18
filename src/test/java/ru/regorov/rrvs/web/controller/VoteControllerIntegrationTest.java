@@ -4,6 +4,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -47,6 +48,9 @@ public class VoteControllerIntegrationTest {
     @LocalServerPort
     int srvPort;
 
+    @Value("#{T(java.time.LocalTime).parse('${end.voting.time}')}")
+    private LocalTime END_VOTING_TIME;
+
     @Test
     public void testGetAll() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL)
@@ -82,14 +86,12 @@ public class VoteControllerIntegrationTest {
         assertThat(restId1, equalTo(1));
     }
 
-    //TODO need to set end voiting time from app.property config and @value it for main and test contexts
     @Test
     public void testSave() throws Exception {
         int savedRestId = 4;
         String voteTo = "{\"restId\": " + savedRestId + "}";
         LocalDateTime now = LocalDateTime.now();
-        LocalTime endVoting = LocalTime.of(11, 0);
-        boolean isEndVoting = now.toLocalTime().isAfter(endVoting);
+        boolean isEndVoting = now.toLocalTime().isAfter(END_VOTING_TIME);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new NoErrorHandler());
         HttpHeaders headers = new HttpHeaders();

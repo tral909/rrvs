@@ -3,6 +3,7 @@ package ru.regorov.rrvs.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.model.Restaurant;
@@ -32,7 +33,8 @@ public class VoteController {
 
     static final String REST_URL = "/votes";
 
-    private static final LocalTime END_VOTING_TIME = LocalTime.of(11, 0);
+    @Value("#{T(java.time.LocalTime).parse('${end.voting.time}')}")
+    private LocalTime END_VOTING_TIME;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -57,7 +59,6 @@ public class VoteController {
         return asTo(voteRepository.get(id, userId));
     }
 
-    //TODO нужен тест на этот метод
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void save(@RequestBody VoteTo voteTo) {
