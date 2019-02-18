@@ -59,6 +59,7 @@ public class VoteController {
 
     //TODO нужен тест на этот метод
     @PostMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void save(@RequestBody VoteTo voteTo) {
         int userId = SecurityUtil.authUserId();
         log.info("save vote {} with userId={}", voteTo, userId);

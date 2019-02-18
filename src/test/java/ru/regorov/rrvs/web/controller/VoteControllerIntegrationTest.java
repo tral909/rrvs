@@ -1,33 +1,39 @@
 package ru.regorov.rrvs.web.controller;
 
 import com.jayway.jsonpath.JsonPath;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.RestTemplate;
+import ru.regorov.rrvs.model.Vote;
 import ru.regorov.rrvs.repository.VoteRepository;
-import ru.regorov.rrvs.to.VoteTo;
-import ru.regorov.rrvs.web.json.JsonUtil;
+import ru.regorov.rrvs.util.VoteUtil;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.regorov.rrvs.web.controller.VoteController.REST_URL;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc(secure = false)
 @Transactional
 public class VoteControllerIntegrationTest {
@@ -37,6 +43,9 @@ public class VoteControllerIntegrationTest {
 
     @Autowired
     VoteRepository voteRepo;
+
+    @LocalServerPort
+    int srvPort;
 
     @Test
     public void testGetAll() throws Exception {
@@ -73,24 +82,57 @@ public class VoteControllerIntegrationTest {
         assertThat(restId1, equalTo(1));
     }
 
-    //TODO this test failed after 11:00. Need replace LocalDateTime.now() or make it catch EndVoteException after 11:00 and pass..
+    //TODO need to set end voiting time from app.property config and @value it for main and test contexts
     @Test
-    @Ignore
     public void testSave() throws Exception {
-        VoteTo voteTo = new VoteTo(null, 4);
+        int savedRestId = 4;
+        String voteTo = "{\"restId\": " + savedRestId + "}";
         LocalDateTime now = LocalDateTime.now();
         LocalTime endVoting = LocalTime.of(11, 0);
         boolean isEndVoting = now.toLocalTime().isAfter(endVoting);
-        MvcResult result = mockMvc.perform(post(REST_URL)
-                .content(JsonUtil.writeValue(voteTo))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
-                .andExpect(isEndVoting ? status().isInternalServerError() : status().isOk())
-                .andReturn();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new NoErrorHandler());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        HttpEntity<String> requestEntity = new HttpEntity<>(voteTo, headers);
+        ResponseEntity<String> result = restTemplate.exchange(
+                "http://localhost:" + srvPort + REST_URL,
+                HttpMethod.POST,
+                requestEntity,
+                String.class);
         if (isEndVoting) {
-            String responseTxt = result.getResponse().getContentAsString();
-            String errorMsg = JsonPath.parse(responseTxt).read("$.message");
-            assertThat(errorMsg, equalTo("Can not vote or change your choice after 11:00"));
+            assertThat(result.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
+            if (result.hasBody()) {
+                String responseTxt = result.getBody().toString();
+                String errMsg = JsonPath.parse(responseTxt).read("$.message");
+                assertThat(errMsg, equalTo("Can not vote or change your choice after 11:00"));
+            }
+        } else {
+            assertThat(result.getStatusCode(), equalTo(HttpStatus.NO_CONTENT));
+            List<Vote> actVotes = voteRepo.getAll(1);
+            assertThat(actVotes.size(), equalTo(3));
+            int savedVoteRestId = VoteUtil.asTo(actVotes.get(2)).getRestId();
+            assertThat(savedVoteRestId, equalTo(savedRestId));
+        }
+//        ------------ MAY BE I CAN SET CUSTOM ERROR HANDLER FOR MOCKMVC -------------
+//        boolean isEndVoting = now.toLocalTime().isAfter(endVoting);
+//        MvcResult result = mockMvc.perform(post(REST_URL)
+//                    .content(JsonUtil.writeValue(voteTo))
+//                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+//                    .andDo(print())
+//                    .andExpect(isEndVoting ? status().isInternalServerError() : status().isOk())
+//                    .andReturn();
+//        if (isEndVoting) {
+//            String responseTxt = result.getResponse().getContentAsString();
+//            String errorMsg = JsonPath.parse(responseTxt).read("$.message");
+//            assertThat(errorMsg, equalTo("Can not vote or change your choice after 11:00"));
+//        }
+    }
+
+    public static class NoErrorHandler extends DefaultResponseErrorHandler {
+        @Override
+        public void handleError(ClientHttpResponse response) throws IOException {
+            // Do nothing, need to check answer 500 error for test purpose
         }
     }
 
