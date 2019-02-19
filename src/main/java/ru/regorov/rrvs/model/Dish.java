@@ -1,12 +1,11 @@
 package ru.regorov.rrvs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "dish")
@@ -17,20 +16,17 @@ public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     private Integer price;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "menu_id", nullable = false)
+    //TODO обновить картинку схемы
+    @ManyToMany(mappedBy = "dishes", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Menu menu;
+    private Set<Menu> menus;
 
     public Dish() {
     }
 
-    public Dish(Integer id, String name, Integer price, Menu menu) {
+    public Dish(Integer id, String name, Integer price) {
         super(id, name);
         this.price = price;
-        this.menu = menu;
     }
 
     public Integer getPrice() {
@@ -41,12 +37,12 @@ public class Dish extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public Set<Menu> getMenus() {
+        return menus;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
     }
 
     @Override

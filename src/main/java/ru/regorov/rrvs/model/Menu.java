@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "menu")
@@ -25,8 +26,15 @@ public class Menu extends AbstractBaseEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "menu")
-    private List<Dish> dishes;
+    // owner of bidirectional relation - resposible for updating join table
+    // https://stackoverflow.com/questions/4935095/jpa-hibernate-many-to-many-cascading
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "menu_dish",
+            joinColumns = @JoinColumn(name = "menu_id"),
+            inverseJoinColumns = @JoinColumn(name = "dish_id")
+    )
+    private Set<Dish> dishes;
 
     public Menu() {
     }
@@ -52,11 +60,11 @@ public class Menu extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public List<Dish> getDishes() {
+    public Set<Dish> getDishes() {
         return dishes;
     }
 
-    public void setDishes(List<Dish> dishes) {
+    public void setDishes(Set<Dish> dishes) {
         this.dishes = dishes;
     }
 

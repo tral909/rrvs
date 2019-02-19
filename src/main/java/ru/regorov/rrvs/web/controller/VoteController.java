@@ -48,14 +48,14 @@ public class VoteController {
     @GetMapping
     public List<VoteTo> getAll() {
         int userId = SecurityUtil.authUserId();
-        log.info("getAll votes with userId={}", userId);
+        log.info("getAll with userId={}", userId);
         return asTo(voteRepository.getAll(userId));
     }
 
     @GetMapping("/{id}")
     public VoteTo get(@PathVariable Integer id) {
         int userId = SecurityUtil.authUserId();
-        log.info("get vote with id={} and userId={}", id, userId);
+        log.info("get with id={} and userId={}", id, userId);
         return asTo(voteRepository.get(id, userId));
     }
 
@@ -63,7 +63,7 @@ public class VoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void save(@RequestBody VoteTo voteTo) {
         int userId = SecurityUtil.authUserId();
-        log.info("save vote {} with userId={}", voteTo, userId);
+        log.info("save {} with userId={}", voteTo, userId);
         LocalDateTime now = LocalDateTime.now();
         log.info(now.toString());
         Optional<Vote> optVote = voteRepository.findByUserIdAndDate(userId, now.toLocalDate());
@@ -87,7 +87,7 @@ public class VoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         int userId = SecurityUtil.authUserId();
-        log.info("delete vote with id={} and userId={}", id, userId);
+        log.info("delete with id={} and userId={}", id, userId);
         voteRepository.delete(id, userId);
     }
 }

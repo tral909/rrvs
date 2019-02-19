@@ -7,9 +7,9 @@ public interface AbstractRepository<T> {
 
     List<T> getAll();
 
-    T create(T dish);
+    T create(T item);
 
-    void update(T dish);
+    void update(T item);
 
     void delete(int id);
 }

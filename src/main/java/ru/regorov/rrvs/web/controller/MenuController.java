@@ -12,6 +12,8 @@ import ru.regorov.rrvs.repository.MenuRepository;
 
 import java.util.List;
 
+//TODO релизовать остальные методы
+//TODO сделать тесты
 @RestController
 @RequestMapping(MenuController.REST_URL)
 public class MenuController {
@@ -23,13 +25,13 @@ public class MenuController {
 
     @GetMapping
     public List<Menu> getAll() {
-        log.info("getAll menus");
+        log.info("getAll");
         return menuRepo.getAll();
     }
 
     @GetMapping("/{id}")
     public Menu get(@PathVariable Integer id) {
-        log.info("get menu {}", id);
+        log.info("get {}", id);
         return menuRepo.get(id);
     }
 }

@@ -32,19 +32,19 @@ public class RestaurantController {
 
     @GetMapping
     public List<RestaurantTo> getAllRests() {
-        log.info("getAll restaurants");
+        log.info("getAll");
         return RestaurantUtil.asTo(restaurantRepo.getAll());
     }
 
     @GetMapping("/{id}")
     public RestaurantTo getRest(@PathVariable Integer id) {
-        log.info("get restaurant {}", id);
+        log.info("get {}", id);
         return RestaurantUtil.asTo(restaurantRepo.get(id));
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL)
     public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
-        log.info("getMenusByRestId {}", restId);
+        log.info("{}", restId);
         return MenuUtil.asTo(restaurantRepo.findByRestIdMenus(restId));
     }
 
@@ -52,22 +52,20 @@ public class RestaurantController {
     public List<Menu> getMenusByRestIdAndDate(@PathVariable Integer restId,
                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                              @RequestParam(value = "date") LocalDate date) {
-        log.info("getMenusByRestIdAndDate (restId={}, date={})", restId, date);
+        log.info("restId={}, date={}", restId, date);
         return restaurantRepo.findByRestIdAndDateMenus(restId, date);
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL + "/{menuId}")
     public List<Dish> getDishesByRestIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
-        log.info("getDishesByRestIdAndMenuId (rest={}, menu={})", restId, menuId);
+        log.info("rest={}, menu={}", restId, menuId);
         return restaurantRepo.findByRestIdAndMenuIdDishes(restId, menuId);
     }
-
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant createRest(@RequestBody Restaurant restaurant) {
-        log.info("create restaurant {}", restaurant);
+        log.info("create {}", restaurant);
         checkNew(restaurant);
         return restaurantRepo.create(restaurant);
     }
@@ -75,7 +73,7 @@ public class RestaurantController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void updateRest(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
-        log.info("update restaurant {} with id {}", restaurant, id);
+        log.info("update {} with id {}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantRepo.update(restaurant);
     }
@@ -83,7 +81,7 @@ public class RestaurantController {
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteRest(@PathVariable Integer id) {
-        log.info("delete restaurant {}", id);
+        log.info("delete {}", id);
         restaurantRepo.delete(id);
     }
 }

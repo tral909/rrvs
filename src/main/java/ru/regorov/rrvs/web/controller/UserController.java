@@ -27,20 +27,20 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
-        log.info("getAll users");
+        log.info("getAll");
         return userRepository.getAll();
     }
 
     @GetMapping("/{id}")
     public User get(@PathVariable Integer id) {
-        log.info("get user {}", id);
+        log.info("get {}", id);
         return userRepository.get(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public User create(@RequestBody UserTo user) {
-        log.info("create user {}", user);
+        log.info("create {}", user);
         checkNew(user);
         return userRepository.create(createNewFromTo(user));
     }
@@ -48,7 +48,7 @@ public class UserController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void update(@RequestBody UserTo user, @PathVariable Integer id) {
-        log.info("update user {} with id {}", user, id);
+        log.info("update {} with id {}", user, id);
         assureIdConsistent(user, id);
         User curUser = userRepository.get(id);
         userRepository.update(UserUtil.updateFromTo(curUser, user));
@@ -57,7 +57,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        log.info("delete user {}", id);
+        log.info("delete {}", id);
         userRepository.delete(id);
     }
 
