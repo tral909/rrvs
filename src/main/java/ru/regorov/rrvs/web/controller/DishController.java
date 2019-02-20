@@ -14,6 +14,7 @@ import java.util.List;
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
 
 //TODO сделать тесты
+//TODO добавить в доку
 @RestController
 @RequestMapping(DishController.REST_URL)
 public class DishController {

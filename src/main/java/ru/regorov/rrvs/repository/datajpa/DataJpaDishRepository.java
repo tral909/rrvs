@@ -27,6 +27,11 @@ public class DataJpaDishRepository implements DishRepository {
     }
 
     @Override
+    public Dish getRef(int id) {
+        return dishRepository.getOne(id);
+    }
+
+    @Override
     public Dish create(Dish dish) {
         Assert.notNull(dish, "dish must not be null");
         return dishRepository.save(dish);

@@ -78,7 +78,7 @@ public class VoteController {
         User user = userRepository.getRef(userId);
         checkNotFoundWithId(user, userId);
         int restId = voteTo.getRestId();
-        Restaurant restaurant = restaurantRepository.getRef(voteTo.getRestId());
+        Restaurant restaurant = restaurantRepository.getRef(restId);
         checkNotFoundWithId(restaurant, restId);
         return VoteUtil.createFromTo(voteTo, date, restaurant, user);
     }

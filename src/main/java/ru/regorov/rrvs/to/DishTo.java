@@ -1,5 +1,6 @@
 package ru.regorov.rrvs.to;
 
+//TODO не используется - удалить
 public class DishTo extends BaseTo {
 
     private String name;

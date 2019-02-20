@@ -1,7 +1,10 @@
 package ru.regorov.rrvs.to;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class VoteTo extends BaseTo {
 
+    @JsonProperty("restaurant_id")
     private Integer restId;
 
     public VoteTo() {
