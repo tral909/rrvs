@@ -14,13 +14,13 @@ import ru.regorov.rrvs.repository.RestaurantRepository;
 import ru.regorov.rrvs.to.MenuTo;
 
 import java.util.List;
+import java.util.Set;
 
 import static ru.regorov.rrvs.util.MenuUtil.asTo;
 import static ru.regorov.rrvs.util.MenuUtil.createFromTo;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 
-//TODO релизовать остальные методы
 //TODO сделать тесты
 //TODO добавить в доку
 @RestController
@@ -74,12 +74,19 @@ public class MenuController {
     @DeleteMapping("/{menuId}" + DishController.REST_URL + "/{dishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDishFromMenu(@PathVariable Integer menuId, @PathVariable Integer dishId) {
-
+        log.info("delete dish {} from menu {}", dishId, menuId);
+        Dish dish = dishRepo.getRef(dishId);
+        Menu menu = menuRepo.getRef(menuId);
+        Set<Dish> dishes = menu.getDishes();
+        dishes.remove(dish);
+        menu.setDishes(dishes);
+        menuRepo.update(menu);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-
+        log.info("delete {}", id);
+        menuRepo.delete(id);
     }
 }

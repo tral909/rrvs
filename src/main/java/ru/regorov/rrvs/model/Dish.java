@@ -16,7 +16,6 @@ public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     private Integer price;
 
-    //TODO обновить картинку схемы
     @ManyToMany(mappedBy = "dishes", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Menu> menus;

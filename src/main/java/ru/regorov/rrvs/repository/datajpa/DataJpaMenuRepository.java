@@ -45,6 +45,6 @@ public class DataJpaMenuRepository implements MenuRepository {
 
     @Override
     public void delete(int id) {
-        //TODO реализовать
+        menuRepository.delete(id);
     }
 }
