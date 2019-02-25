@@ -61,12 +61,12 @@ public class VoteControllerIntegrationTest {
         String responseTxt = result.getResponse().getContentAsString();
 
         int id1 = JsonPath.parse(responseTxt).read("$.[0].id");
-        int restId1 = JsonPath.parse(responseTxt).read("$.[0].restId");
+        int restId1 = JsonPath.parse(responseTxt).read("$.[0].restaurant_id");
         assertThat(id1, equalTo(1));
         assertThat(restId1, equalTo(1));
 
         int id2 = JsonPath.parse(responseTxt).read("$.[1].id");
-        int restId2 = JsonPath.parse(responseTxt).read("$.[1].restId");
+        int restId2 = JsonPath.parse(responseTxt).read("$.[1].restaurant_id");
         assertThat(id2, equalTo(2));
         assertThat(restId2, equalTo(3));
     }
@@ -81,7 +81,7 @@ public class VoteControllerIntegrationTest {
         String responseTxt = result.getResponse().getContentAsString();
 
         int id1 = JsonPath.parse(responseTxt).read("$.id");
-        int restId1 = JsonPath.parse(responseTxt).read("$.restId");
+        int restId1 = JsonPath.parse(responseTxt).read("$.restaurant_id");
         assertThat(id1, equalTo(1));
         assertThat(restId1, equalTo(1));
     }
@@ -89,7 +89,7 @@ public class VoteControllerIntegrationTest {
     @Test
     public void testSave() throws Exception {
         int savedRestId = 4;
-        String voteTo = "{\"restId\": " + savedRestId + "}";
+        String voteTo = "{\"restaurant_id\": " + savedRestId + "}";
         LocalDateTime now = LocalDateTime.now();
         boolean isEndVoting = now.toLocalTime().isAfter(END_VOTING_TIME);
         RestTemplate restTemplate = new RestTemplate();

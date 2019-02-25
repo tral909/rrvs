@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class Dish extends AbstractNamedEntity {
 
     @ManyToMany(mappedBy = "dishes", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Menu> menus;
+    private Set<Menu> menus = new HashSet<>();
 
     public Dish() {
     }

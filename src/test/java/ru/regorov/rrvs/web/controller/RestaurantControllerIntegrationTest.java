@@ -1,7 +1,6 @@
 package ru.regorov.rrvs.web.controller;
 
 import com.jayway.jsonpath.JsonPath;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.RestaurantRepository;
 import ru.regorov.rrvs.web.json.JsonUtil;
+import ru.regorov.rrvs.web.testdata.DishTestData;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -91,7 +92,10 @@ public class RestaurantControllerIntegrationTest {
         assertThat(date, equalTo("2019-01-26"));
         assertThat(dishesLength, equalTo(5));
         String dishes = JsonPath.parse(responseTxt).read("$.[0].dishes").toString();
-        assertCommonDishes(dishes);
+        List<Dish> actualDishes = JsonUtil.readValues(dishes, Dish.class);
+        DishTestData.assertMatchIgnoringOrder(actualDishes, DishTestData.DISH1,
+                DishTestData.DISH8, DishTestData.DISH15,
+                DishTestData.DISH20, DishTestData.DISH21);
     }
 
     @Test
@@ -102,27 +106,10 @@ public class RestaurantControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
-        int dishesLength = JsonPath.parse(responseTxt).read("$.length()");
-        assertThat(dishesLength, equalTo(5));
-        assertCommonDishes(responseTxt);
-    }
-
-    //TODO если буду делать тест еды в отдельном классе - сделать отдельный класс с тестовыми обьектами еды и сранивать все через assertj
-    private void assertCommonDishes(String dishesArray) {
-        int[] actIds = new int[5];
-        String[] actNames = new String[actIds.length];
-        int[] actPrices = new int[actIds.length];
-        int[] expectIds = new int[]{1, 8, 15, 20, 21};
-        String[] expectNames = new String[]{"Картофель жареный", "Чай", "Пельмени", "Суп грибной", "Салат овощной"};
-        int[] expectPrices = new int[]{35, 30, 90, 60, 45};
-        for (int i = 0; i < actIds.length; i++) {
-            actIds[i] = JsonPath.parse(dishesArray).read("$.[" + i + "].id");
-            actNames[i] = JsonPath.parse(dishesArray).read("$.[" + i + "].name");
-            actPrices[i] = JsonPath.parse(dishesArray).read("$.[" + i + "].price");
-            assertThat(actIds[i], equalTo(expectIds[i]));
-            assertThat(actNames[i], equalTo(expectNames[i]));
-            assertThat(actPrices[i], equalTo(expectPrices[i]));
-        }
+        List<Dish> actual = JsonUtil.readValues(responseTxt, Dish.class);
+        DishTestData.assertMatch(actual, DishTestData.DISH1,
+                DishTestData.DISH8, DishTestData.DISH15,
+                DishTestData.DISH20, DishTestData.DISH21);
     }
 
     @Test

@@ -18,7 +18,7 @@ public class AppConfig {
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        //////start standaone server for multiple connections to database
+        //////start standalone server for multiple connections to database
         //cd C:\Users\Roman\.m2\repository\org\hsqldb\hsqldb\2.4.1
         //mkdir db; cd db
         //java -cp .\hsqldb-2.4.1.jar org.hsqldb.Server -database.0 mem:rrvs
@@ -35,7 +35,6 @@ public class AppConfig {
         Resource initData = new ClassPathResource("db/population.sql");
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchema, initData);
         DatabasePopulatorUtils.execute(databasePopulator, dataSource);
-
         return dataSource;
     }
 

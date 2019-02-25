@@ -32,4 +32,4 @@ P.P.S.: Asume that your API will be used by a frontend developer to build fronte
 
 REST documentation - apiary.apib (https://app.apiary.io/)
 
-Database schema - schema.pdf, schema.xml (https://www.draw.io/)
+Database schema - schema.jpg, schema.xml (https://www.draw.io/)
