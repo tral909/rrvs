@@ -334,3 +334,181 @@ Admins could update restaurants, menus and dishes.
 Удалить голос
 
 + Response 204
+
+
+## Dishes collection [/dishes]
+
+### List all dishes [GET]
+
+Получить все блюда
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+          "id" : 1,
+          "name" : "Картофель жареный",
+          "price" : 35
+        }, {
+          "id" : 2,
+          "name" : "Рис",
+          "price" : 30
+        }, {
+          "id" : 3,
+          "name" : "Гречка",
+          "price" : 30
+        }, {
+          "id" : 4,
+          "name" : "Макароны",
+          "price" : 25
+        } ]
+        
+
+### List dish by id [GET /dishes/id]
+
+Получить блюдо
+
++ Response 200 (application/json;charset=UTF-8)
+
+        {
+          "id" : 1,
+          "name" : "Картофель жареный",
+          "price" : 35
+        }
+        
+
+### Create dish [POST]
+
+Создать новое блюдо
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+          "name" : "newMeal",
+          "price" : 77
+        }
+
++ Response 201 (application/json;charset=UTF-8)
+
+        {
+          "id" : 26,
+          "name" : "newMeal",
+          "price" : 77
+        }
+
+
+### Update dish by id [PUT /dishes/id]
+
+Обновить информацию о блюде
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+            "name" : "updatedMeal",
+            "price" : 78
+        }
+
++ Response 204
+
+
+### Delete dish by id [DELETE /dishes/id]
+
+Удалить блюдо
+
++ Response 204
+
+
+
+## Menus collection [/menus]
+
+### List all menus [GET]
+
+Получить все меню
+
++ Response 200 (application/json;charset=UTF-8)
+
+        [ {
+          "id" : 1,
+          "date" : "2019-01-26",
+          "restaurant_id" : 1
+        }, {
+          "id" : 2,
+          "date" : "2019-01-26",
+          "restaurant_id" : 2
+        }, {
+          "id" : 3,
+          "date" : "2019-01-26",
+          "restaurant_id" : 3
+        } ]
+        
+
+### List menu by id [GET /menus/id]
+
+Получить информацию о меню
+
++ Response 200 (application/json;charset=UTF-8)
+
+        {
+          "id" : 1,
+          "date" : "2019-01-26",
+          "dishes" : [ {
+            "id" : 20,
+            "name" : "Суп грибной",
+            "price" : 60
+          }, {
+            "id" : 8,
+            "name" : "Чай",
+            "price" : 30
+          }, {
+            "id" : 15,
+            "name" : "Пельмени",
+            "price" : 90
+          }, {
+            "id" : 21,
+            "name" : "Салат овощной",
+            "price" : 45
+          }, {
+            "id" : 1,
+            "name" : "Картофель жареный",
+            "price" : 35
+          } ]
+        }
+        
+
+### Create menu [POST]
+
+Создать новое меню
+
++ Request (application/json;charset=UTF-8)
+        
+        {
+          "date" : "2019-02-26",
+          "restaurant_id" : 2
+        }
+
++ Response 201 (application/json;charset=UTF-8)
+
+        {
+          "id" : 6,
+          "date" : "2019-02-26",
+          "restaurant_id" : 2
+        }
+
+
+### Add dish at menu [POST /menus/id/dishes/id]
+
+Добавить блюдо в меню
+
++ Response 204
+
+
+### Delete dish from menu [DELETE /menus/id/dishes/id]
+
+Удалить блюдо из меню
+
++ Response 204
+
+### Delete menu by id [DELETE /menus/id]
+
+Удалить меню
+
++ Response 204

@@ -22,7 +22,6 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 
 //TODO сделать тесты
-//TODO добавить в доку
 @RestController
 @RequestMapping(MenuController.REST_URL)
 public class MenuController {
@@ -52,13 +51,13 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Menu create(@RequestBody MenuTo menuTo) {
+    public MenuTo create(@RequestBody MenuTo menuTo) {
         log.info("create {}", menuTo);
         checkNew(menuTo);
         int restId = menuTo.getRestId();
         Restaurant restaurant = restRepo.getRef(restId);
         checkNotFoundWithId(restaurant, restId);
-        return menuRepo.create(createFromTo(menuTo, restaurant));
+        return asTo(menuRepo.create(createFromTo(menuTo, restaurant)));
     }
 
     @PostMapping("/{menuId}" + DishController.REST_URL + "/{dishId}")
