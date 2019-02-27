@@ -21,7 +21,6 @@ import static ru.regorov.rrvs.util.MenuUtil.createFromTo;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 
-//TODO сделать тесты
 @RestController
 @RequestMapping(MenuController.REST_URL)
 public class MenuController {
