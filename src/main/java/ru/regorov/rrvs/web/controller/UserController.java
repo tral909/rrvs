@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.AuthorizedUser;
 import ru.regorov.rrvs.model.User;
@@ -29,6 +30,9 @@ public class UserController implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @GetMapping
     public List<User> getAll() {
         log.info("getAll");
@@ -46,7 +50,7 @@ public class UserController implements UserDetailsService {
     public User create(@RequestBody UserTo user) {
         log.info("create {}", user);
         checkNew(user);
-        return userRepository.create(createNewFromTo(user));
+        return userRepository.create(createNewFromTo(user, passwordEncoder));
     }
 
     @PutMapping("/{id}")

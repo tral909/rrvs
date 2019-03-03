@@ -6,14 +6,14 @@ DELETE FROM restaurant;
 DELETE FROM vote;
 
 INSERT INTO user (id, name, login, password) VALUES
-  (1, 'tony', 'user', '1qaz2wsx'),
-  (2, 'regorov', 'admin', 'qwqwqw'),
-  (3, 'nagorniy', 'nag22', 'qweasd'),
-  (4, 'autotest', 'userautotest', 'zaq1xsw2'),
-  (5, 'bortenev', 'bva31', 'bvabva'),
-  (6, 'dubenskiy', 'duboks', 'qwe321'),
-  (7, 'prebluda', 'KL', '1qaz2wsx'),
-  (8, 'old admin', 'i_am_adm', 'qwqwqw');
+  (1, 'tony', 'user', '{noop}1qaz2wsx'),
+  (2, 'regorov', 'admin', '{noop}qwqwqw'),
+  (3, 'nagorniy', 'nag22', '{noop}qweasd'),
+  (4, 'autotest', 'userautotest', '{noop}zaq1xsw2'),
+  (5, 'bortenev', 'bva31', '{noop}bvabva'),
+  (6, 'dubenskiy', 'duboks', '{noop}qwe321'),
+  (7, 'prebluda', 'KL', '{noop}1qaz2wsx'),
+  (8, 'old admin', 'i_am_adm', '{noop}qwqwqw');
 
 INSERT INTO user_role (user_id, role) VALUES
   (1, 'ROLE_USER'),
