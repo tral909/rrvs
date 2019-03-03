@@ -4,7 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import ru.regorov.rrvs.AuthorizedUser;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.to.UserTo;
@@ -18,7 +22,7 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(UserController.REST_URL)
-public class UserController {
+public class UserController implements UserDetailsService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     static final String REST_URL = "/users";
 
@@ -61,4 +65,12 @@ public class UserController {
         userRepository.delete(id);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.getByLogin(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + username + " is not found");
+        }
+        return new AuthorizedUser(user);
+    }
 }

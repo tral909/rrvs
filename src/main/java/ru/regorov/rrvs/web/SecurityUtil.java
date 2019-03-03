@@ -1,11 +1,32 @@
 package ru.regorov.rrvs.web;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import ru.regorov.rrvs.AuthorizedUser;
+
+import static java.util.Objects.requireNonNull;
+
 public class SecurityUtil {
+
+    public static AuthorizedUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
+    }
+
+    public static AuthorizedUser get() {
+        AuthorizedUser user = safeGet();
+        requireNonNull(user, "No authorized user found");
+        return user;
+    }
+
     private SecurityUtil() {
     }
 
-    //TODO сейчас здесь заглушка на пользователя tony id=1, пока не приделаю security
     public static int authUserId() {
-        return 1;
+        return get().getUserTo().getId();
     }
 }

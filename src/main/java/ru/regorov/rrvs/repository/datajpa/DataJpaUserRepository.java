@@ -17,6 +17,11 @@ public class DataJpaUserRepository implements UserRepository {
     private CrudUserRepository userRepo;
 
     @Override
+    public User getByLogin(String username) {
+        return userRepo.findByLogin(username);
+    }
+
+    @Override
     public User get(int id) {
         return checkNotFoundWithId(userRepo.findById(id).orElse(null), id);
     }

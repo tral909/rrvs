@@ -17,4 +17,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     @Transactional
     User save(User user);
+
+    User findByLogin(String login);
 }
