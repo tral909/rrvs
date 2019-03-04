@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import ru.regorov.rrvs.model.Vote;
@@ -31,7 +32,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.VoteController.REST_URL;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -54,6 +57,7 @@ public class VoteControllerIntegrationTest {
     @Test
     public void testGetAll() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -74,6 +78,7 @@ public class VoteControllerIntegrationTest {
     @Test
     public void testGet() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL + "/" + 1)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -96,6 +101,7 @@ public class VoteControllerIntegrationTest {
         restTemplate.setErrorHandler(new NoErrorHandler());
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Authorization", "Basic " + new String(Base64Utils.encodeUrlSafe((USER.getLogin() + ":" + USER.getPassword()).getBytes())));
         HttpEntity<String> requestEntity = new HttpEntity<>(voteTo, headers);
         ResponseEntity<String> result = restTemplate.exchange(
                 "http://localhost:" + srvPort + REST_URL,
@@ -141,6 +147,7 @@ public class VoteControllerIntegrationTest {
     @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + "/" + 1)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());

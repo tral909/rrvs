@@ -64,7 +64,7 @@ public class MenuController {
     public void appendDishToMenu(@PathVariable Integer menuId, @PathVariable Integer dishId) {
         log.info("append dishId {} to menuId {}", dishId, menuId);
         Menu menu = menuRepo.getRef(menuId);
-        Dish dish = dishRepo.getRef(dishId);
+        Dish dish = dishRepo.get(dishId);
         menu.getDishes().add(dish);
         menuRepo.update(menu);
     }

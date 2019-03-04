@@ -24,8 +24,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.RestaurantController.REST_URL;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.*;
+import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,6 +45,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void testGetAll() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -54,6 +58,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void testGet() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -66,6 +71,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void testGetMenusByRestId() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus")
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -80,6 +86,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void getMenusByRestIdAndDate() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/filter?date=2019-01-26")
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -101,6 +108,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void getDishesByRestIdAndMenuId() throws Exception {
         MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/" + 1)
+                .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -116,6 +124,7 @@ public class RestaurantControllerIntegrationTest {
     public void testCreate() throws Exception {
         Restaurant created = getCreated();
         MvcResult result = mockMvc.perform(post(REST_URL)
+                .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(created))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -131,6 +140,7 @@ public class RestaurantControllerIntegrationTest {
     public void testUpdate() throws Exception {
         Restaurant updated = getUpdated();
         mockMvc.perform(put(REST_URL + "/" + updated.getId())
+                .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -141,6 +151,7 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + "/" + RESTNT1_ID)
+                .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());

@@ -19,8 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserController userController;
 
-    //TODO Прикрутить basic auth в тестах
-    //TODO приделать slf4j к проекту
     //TODO добавить файл с curl примерами запросов
     //TODO сделать exception handlers
     @Override
