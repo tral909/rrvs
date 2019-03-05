@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.model.Restaurant;
 import ru.regorov.rrvs.repository.DishRepository;
@@ -14,7 +13,6 @@ import ru.regorov.rrvs.repository.RestaurantRepository;
 import ru.regorov.rrvs.to.MenuTo;
 
 import java.util.List;
-import java.util.Set;
 
 import static ru.regorov.rrvs.util.MenuUtil.asTo;
 import static ru.regorov.rrvs.util.MenuUtil.createFromTo;
@@ -63,22 +61,24 @@ public class MenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void appendDishToMenu(@PathVariable Integer menuId, @PathVariable Integer dishId) {
         log.info("append dishId {} to menuId {}", dishId, menuId);
-        Menu menu = menuRepo.getRef(menuId);
-        Dish dish = dishRepo.get(dishId);
+        /*Menu menu = menuRepo.getRef(menuId);
+        Dish dish = dishRepo.getRef(dishId);
         menu.getDishes().add(dish);
-        menuRepo.update(menu);
+        menuRepo.update(menu);*/
+        menuRepo.appendDish(menuId, dishId);
     }
 
     @DeleteMapping("/{menuId}" + DishController.REST_URL + "/{dishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDishFromMenu(@PathVariable Integer menuId, @PathVariable Integer dishId) {
         log.info("delete dish {} from menu {}", dishId, menuId);
-        Dish dish = dishRepo.getRef(dishId);
+        /*Dish dish = dishRepo.getRef(dishId);
         Menu menu = menuRepo.getRef(menuId);
         Set<Dish> dishes = menu.getDishes();
         dishes.remove(dish);
         menu.setDishes(dishes);
-        menuRepo.update(menu);
+        menuRepo.update(menu);*/
+        menuRepo.deleteDish(menuId, dishId);
     }
 
     @DeleteMapping("/{id}")

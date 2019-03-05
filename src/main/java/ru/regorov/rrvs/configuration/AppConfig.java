@@ -23,10 +23,10 @@ public class AppConfig {
         //mkdir db; cd db
         //java -cp .\hsqldb-2.4.1.jar org.hsqldb.Server -database.0 mem:rrvs
         //java -cp ..\hsqldb-2.4.1.jar org.hsqldb.Server --database.0 file:mydb --dbname.0 rrvs
-        dataSource.setUrl("jdbc:hsqldb:hsql://localhost:9001/rrvs");
+        //dataSource.setUrl("jdbc:hsqldb:hsql://localhost:9001/rrvs");
 
         ////// start database in memory
-        //dataSource.setUrl("jdbc:hsqldb:mem:rrvs");
+        dataSource.setUrl("jdbc:hsqldb:mem:rrvs");
         ////// or in file
         //dataSource.setUrl("jdbc:hsqldb:file:D:/temp/rrsv");
         dataSource.setUsername("sa");

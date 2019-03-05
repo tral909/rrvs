@@ -32,6 +32,16 @@ public class DataJpaMenuRepository implements MenuRepository {
     }
 
     @Override
+    public void appendDish(int menuId, int dishId) {
+        menuRepository.appendDish(menuId, dishId);
+    }
+
+    @Override
+    public void deleteDish(int menuId, int dishId) {
+        menuRepository.deleteDish(menuId, dishId);
+    }
+
+    @Override
     public Menu create(Menu menu) {
         Assert.notNull(menu, "menu must not be null");
         return menuRepository.save(menu);
