@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //TODO добавить файл с curl примерами запросов
     //TODO сделать exception handlers
+    //TODO вынести настройки БД и времени голосования в отдельный проперти
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -65,7 +65,6 @@ public class VoteController {
         int userId = SecurityUtil.authUserId();
         log.info("save {} with userId={}", voteTo, userId);
         LocalDateTime now = LocalDateTime.now();
-        log.info(now.toString());
         Optional<Vote> optVote = voteRepository.findByUserIdAndDate(userId, now.toLocalDate());
         if (now.toLocalTime().isAfter(END_VOTING_TIME)) {
             throw new EndVoteException("Can not vote or change your choice after " + END_VOTING_TIME);
