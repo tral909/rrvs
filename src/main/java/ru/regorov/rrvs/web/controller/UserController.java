@@ -4,17 +4,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.AuthorizedUser;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.to.UserTo;
 import ru.regorov.rrvs.util.UserUtil;
+import ru.regorov.rrvs.util.ValidationUtil;
+import ru.regorov.rrvs.web.json.JsonUtil;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.regorov.rrvs.util.UserUtil.createNewFromTo;
@@ -45,21 +50,28 @@ public class UserController implements UserDetailsService {
         return userRepository.get(id);
     }
 
+    //TODO тесты на валидацию create update методов
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public User create(@RequestBody UserTo user) {
+    public ResponseEntity<String> create(@Valid @RequestBody UserTo user, BindingResult result) {
         log.info("create {}", user);
+        if (result.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(result);
+        }
         checkNew(user);
-        return userRepository.create(createNewFromTo(user, passwordEncoder));
+        User created = userRepository.create(createNewFromTo(user, passwordEncoder));
+        return new ResponseEntity<>(JsonUtil.writeValue(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo user, @PathVariable Integer id) {
+    public ResponseEntity<String> update(@Valid @RequestBody UserTo user, BindingResult result, @PathVariable Integer id) {
         log.info("update {} with id {}", user, id);
+        if (result.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(result);
+        }
         assureIdConsistent(user, id);
         User curUser = userRepository.get(id);
         userRepository.update(UserUtil.updateFromTo(curUser, user));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")

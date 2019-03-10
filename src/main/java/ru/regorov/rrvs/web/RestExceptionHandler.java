@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,6 +25,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public RestError handleNotFound(NotFoundException e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
         return new RestError(ErrorType.DATA_NOT_FOUND_ERROR, ValidationUtil.getMessage(rootCause));
     }
 
@@ -31,13 +33,18 @@ public class RestExceptionHandler {
     @ExceptionHandler(EndVoteException.class)
     public RestError handleEndVoting(EndVoteException e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
         return new RestError(ErrorType.END_VOTE_ERROR, ValidationUtil.getMessage(rootCause));
     }
 
+    //TODO заменить на реализацию через валидатор с запросом сущности в базе,
+    //что бы запрос с неуникальным полем не приводил к ошибке БД
+    //плюс внешние ключи (например голосуем за несуществующий ресторан)
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public RestError handleDataIntergityViolation(DataIntegrityViolationException e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
         String message = ValidationUtil.getMessage(rootCause).toLowerCase();
         if (message.contains(USER_UNIQUE_LOGIN)) {
             message = "Пользователь с таким полем 'login' уже существует";
@@ -51,17 +58,29 @@ public class RestExceptionHandler {
         return new RestError(ErrorType.DATA_ERROR, message);
     }
 
-    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
-    public RestError illegalRequestDataError(Exception e) {
+    public RestError handleIllegalRequestData(Exception e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
         return new RestError(ErrorType.VALIDATION_ERROR, ValidationUtil.getMessage(rootCause));
+    }
+
+    @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public RestError handleMethodNotAllowed(HttpRequestMethodNotSupportedException e) {
+        Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
+        return new RestError(ErrorType.METHOD_NOT_ALLOWED, ValidationUtil.getMessage(rootCause));
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public RestError handleError(Exception e) {
+    public RestError handleCommonException(Exception e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        log.error(e.getLocalizedMessage(), rootCause);
         return new RestError(ErrorType.APP_ERROR, ValidationUtil.getMessage(rootCause));
     }
+
+    //TODO добавить в контроллеров валидацию @valid и constrains в dto, что бы работала аннотация
 }

@@ -1,8 +1,16 @@
 package ru.regorov.rrvs.util;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import ru.regorov.rrvs.common.HasId;
+import ru.regorov.rrvs.util.exceptions.ErrorType;
 import ru.regorov.rrvs.util.exceptions.IllegalRequestDataException;
 import ru.regorov.rrvs.util.exceptions.NotFoundException;
+import ru.regorov.rrvs.util.exceptions.RestError;
+import ru.regorov.rrvs.web.json.JsonUtil;
+
+import java.util.StringJoiner;
 
 public class ValidationUtil {
 
@@ -54,5 +62,26 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    private static String getErrorResponseMessage(BindingResult result) {
+        StringJoiner joiner = new StringJoiner("; ");
+        result.getFieldErrors().forEach(
+                fe -> {
+                    String msg = fe.getDefaultMessage();
+                    if (msg != null) {
+                        if (!msg.startsWith(fe.getField())) {
+                            msg = fe.getField() + ' ' + msg;
+                        }
+                        joiner.add(msg);
+                    }
+                });
+        return joiner.toString();
+    }
+
+    public static ResponseEntity<String> handleValidationErrors(BindingResult result) {
+        String details = ValidationUtil.getErrorResponseMessage(result);
+        RestError errModel = new RestError(ErrorType.VALIDATION_ERROR, details);
+        return new ResponseEntity<>(JsonUtil.writeValue(errModel), HttpStatus.BAD_REQUEST);
     }
 }
