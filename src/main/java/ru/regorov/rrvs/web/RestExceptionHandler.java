@@ -54,6 +54,8 @@ public class RestExceptionHandler {
             message = "Ресторан с таким полем 'phone' уже существует";
         } else if (message.contains(MENU_DISH_UNIQUE)) {
             message = "В этом меню такое блюдо уже добавлено";
+        } else if (message.contains("foreign key no parent")) {
+            message = "Объекта с таким идентификатором не существует";
         }
         return new RestError(ErrorType.DATA_ERROR, message);
     }
@@ -82,5 +84,5 @@ public class RestExceptionHandler {
         return new RestError(ErrorType.APP_ERROR, ValidationUtil.getMessage(rootCause));
     }
 
-    //TODO добавить в контроллеров валидацию @valid и constrains в dto, что бы работала аннотация
+    //TODO добавить в контроллеры валидацию @valid и constrains в dto, что бы работала аннотация
 }

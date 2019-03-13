@@ -23,7 +23,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 import static ru.regorov.rrvs.util.VoteUtil.asTo;
 
 @RestController
@@ -75,10 +74,8 @@ public class VoteController {
 
     private Vote constructVote(VoteTo voteTo, LocalDate date, int userId) {
         User user = userRepository.getRef(userId);
-        checkNotFoundWithId(user, userId);
         int restId = voteTo.getRestId();
         Restaurant restaurant = restaurantRepository.getRef(restId);
-        checkNotFoundWithId(restaurant, restId);
         return VoteUtil.createFromTo(voteTo, date, restaurant, user);
     }
 
