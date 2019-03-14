@@ -58,8 +58,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public void update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        checkNotFoundWithId(restaurantRepo.save(restaurant), restaurant.getId());
+        int id = restaurant.getId();
+        checkNotFoundWithId(restaurantRepo.findById(id).orElse(null), id);
+        restaurantRepo.save(restaurant);
     }
+
     @Override
     public void delete(int id) {
         checkNotFoundWithId(restaurantRepo.delete(id) != 0, id);

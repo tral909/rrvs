@@ -50,7 +50,9 @@ public class DataJpaMenuRepository implements MenuRepository {
     @Override
     public void update(Menu menu) {
         Assert.notNull(menu, "menu must not be null");
-        checkNotFoundWithId(menuRepository.save(menu), menu.getId());
+        int id = menu.getId();
+        checkNotFoundWithId(menuRepository.findById(id).orElse(null), id);
+        menuRepository.save(menu);
     }
 
     @Override

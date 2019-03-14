@@ -40,7 +40,9 @@ public class DataJpaUserRepository implements UserRepository {
     @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-        checkNotFoundWithId(userRepo.save(user), user.getId());
+        int id = user.getId();
+        checkNotFoundWithId(userRepo.findById(id).orElse(null), id);
+        userRepo.save(user);
     }
 
     @Override

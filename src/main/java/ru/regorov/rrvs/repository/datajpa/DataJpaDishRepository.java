@@ -40,7 +40,9 @@ public class DataJpaDishRepository implements DishRepository {
     @Override
     public void update(Dish dish) {
         Assert.notNull(dish, "dish must not be null");
-        checkNotFoundWithId(dishRepository.save(dish), dish.getId());
+        int id = dish.getId();
+        checkNotFoundWithId(dishRepository.findById(id).orElse(null), id);
+        dishRepository.save(dish);
     }
 
     @Override
