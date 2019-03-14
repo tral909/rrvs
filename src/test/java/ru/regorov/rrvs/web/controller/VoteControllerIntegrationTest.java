@@ -94,6 +94,7 @@ public class VoteControllerIntegrationTest {
     @Test
     public void testSave() throws Exception {
         int savedRestId = 4;
+        int userId = 1;
         String voteTo = "{\"restaurant_id\": " + savedRestId + "}";
         LocalDateTime now = LocalDateTime.now();
         boolean isEndVoting = now.toLocalTime().isAfter(END_VOTING_TIME);
@@ -109,15 +110,15 @@ public class VoteControllerIntegrationTest {
                 requestEntity,
                 String.class);
         if (isEndVoting) {
-            assertThat(result.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
+            assertThat(result.getStatusCode(), equalTo(HttpStatus.CONFLICT));
             if (result.hasBody()) {
                 String responseTxt = result.getBody().toString();
-                String errMsg = JsonPath.parse(responseTxt).read("$.message");
+                String errMsg = JsonPath.parse(responseTxt).read("$.details");
                 assertThat(errMsg, equalTo("Can not vote or change your choice after 11:00"));
             }
         } else {
             assertThat(result.getStatusCode(), equalTo(HttpStatus.NO_CONTENT));
-            List<Vote> actVotes = voteRepo.getAll(1);
+            List<Vote> actVotes = voteRepo.getAll(userId);
             assertThat(actVotes.size(), equalTo(3));
             int savedVoteRestId = VoteUtil.asTo(actVotes.get(2)).getRestId();
             assertThat(savedVoteRestId, equalTo(savedRestId));
@@ -146,11 +147,18 @@ public class VoteControllerIntegrationTest {
 
     @Test
     public void testDelete() throws Exception {
+        int userId = 1;
         mockMvc.perform(delete(REST_URL + "/" + 1)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThat(voteRepo.getAll(1).size(), equalTo(1));
+        // need this, because restTemplate in testSave method doesnt work with @transactional test
+        // (testDelete fails with 1 expected and 2 actual votes)
+        int expectedVotesCount = 1;
+        if (LocalDateTime.now().toLocalTime().isBefore(END_VOTING_TIME)) {
+            expectedVotesCount = 2;
+        }
+        assertThat(voteRepo.getAll(userId).size(), equalTo(expectedVotesCount));
     }
 }

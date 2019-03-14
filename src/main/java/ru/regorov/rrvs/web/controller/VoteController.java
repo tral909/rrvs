@@ -44,6 +44,7 @@ public class VoteController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    //TODO вернуть vote, чтобы видеть дату
     @GetMapping
     public List<VoteTo> getAll() {
         int userId = SecurityUtil.authUserId();

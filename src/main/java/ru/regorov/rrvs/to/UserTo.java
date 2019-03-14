@@ -1,7 +1,5 @@
 package ru.regorov.rrvs.to;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,7 +19,6 @@ public class UserTo extends BaseTo {
     @NotBlank
     @Size(min = 5, max = 100)
     @Column(name = "password", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public UserTo() {
