@@ -309,23 +309,13 @@ Admins could update restaurants, menus and dishes.
           "restaurant_id" : 3
         }
 
-+ Response 201 (application/json;charset=UTF-8)
++ Response 204 (application/json;charset=UTF-8)
+
++ Response 409 (application/json;charset=UTF-8)
 
         {
-          "id" : 9,
-          "name" : "newuser",
-          "login" : "newlogin",
-          "roles" : [ "ROLE_USER" ]
-        }
-
-+ Response 500 (application/json;charset=UTF-8)
-
-        {
-          "timestamp" : "2019-02-16T20:48:24.005+0000",
-          "status" : 500,
-          "error" : "Internal Server Error",
-          "message" : "Can not vote or change your choice after 11:00",
-          "path" : "/votes"
+          "type" : "END_VOTE_ERROR",
+          "details" : "Can not vote or change your choice after 11:00",
         }
 
 
