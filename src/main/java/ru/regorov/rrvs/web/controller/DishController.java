@@ -4,11 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.repository.DishRepository;
 import ru.regorov.rrvs.util.ValidationUtil;
+import ru.regorov.rrvs.web.json.JsonUtil;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
@@ -36,18 +40,26 @@ public class DishController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Dish create(@RequestBody Dish dish) {
+    public ResponseEntity<String> create(@Valid @RequestBody Dish dish, BindingResult result) {
         log.info("create {}", dish);
         ValidationUtil.checkNew(dish);
-        return dishRepo.create(dish);
+        if (result.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(result);
+        }
+        Dish created = dishRepo.create(dish);
+        return new ResponseEntity<>(JsonUtil.writeValue(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @RequestBody Dish dish) {
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody Dish dish, BindingResult result) {
         log.info("update {} with id {}", dish, id);
         assureIdConsistent(dish, id);
+        if (result.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(result);
+        }
         dishRepo.update(dish);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")

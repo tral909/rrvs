@@ -20,6 +20,7 @@ public class RestExceptionHandler {
     private static final String USER_ROLE_UNIQUE = "user_roles_idx";
     private static final String RESTAURANT_UNIQUE_PHONE = "restaurant_unique_phone_idx";
     private static final String MENU_DISH_UNIQUE = "menu_dish_idx";
+    private static final String NONEXISTENT_FK = "foreign key no parent";
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
@@ -54,7 +55,7 @@ public class RestExceptionHandler {
             message = "Ресторан с таким полем 'phone' уже существует";
         } else if (message.contains(MENU_DISH_UNIQUE)) {
             message = "В этом меню такое блюдо уже добавлено";
-        } else if (message.contains("foreign key no parent")) {
+        } else if (message.contains(NONEXISTENT_FK)) {
             message = "Объекта с таким идентификатором не существует";
         }
         return new RestError(ErrorType.DATA_ERROR, message);

@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.model.Menu;
@@ -14,12 +16,13 @@ import ru.regorov.rrvs.to.MenuTo;
 import ru.regorov.rrvs.to.RestaurantTo;
 import ru.regorov.rrvs.util.MenuUtil;
 import ru.regorov.rrvs.util.RestaurantUtil;
+import ru.regorov.rrvs.web.json.JsonUtil;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
-import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
+import static ru.regorov.rrvs.util.ValidationUtil.*;
 
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
@@ -64,18 +67,25 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant createRest(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<String> createRest(@Valid @RequestBody Restaurant restaurant, BindingResult result) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
-        return restaurantRepo.create(restaurant);
+        if (result.hasErrors()) {
+            return handleValidationErrors(result);
+        }
+        Restaurant created = restaurantRepo.create(restaurant);
+        return new ResponseEntity<>(JsonUtil.writeValue(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void updateRest(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
+    public ResponseEntity<String> updateRest(@Valid @RequestBody Restaurant restaurant, BindingResult result, @PathVariable Integer id) {
         log.info("update {} with id {}", restaurant, id);
         assureIdConsistent(restaurant, id);
+        if (result.hasErrors()) {
+            return handleValidationErrors(result);
+        }
         restaurantRepo.update(restaurant);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
