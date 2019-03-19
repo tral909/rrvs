@@ -19,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserController userController;
 
-    //TODO добавить файл с curl примерами запросов
     //TODO вынести настройки БД и времени голосования в отдельный проперти
     @Override
     protected void configure(HttpSecurity http) throws Exception {
