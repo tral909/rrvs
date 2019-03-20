@@ -84,6 +84,4 @@ public class RestExceptionHandler {
         log.error(e.getLocalizedMessage(), rootCause);
         return new RestError(ErrorType.APP_ERROR, ValidationUtil.getMessage(rootCause));
     }
-
-    //TODO добавить в контроллеры валидацию @valid и constrains в dto, что бы работала аннотация
 }

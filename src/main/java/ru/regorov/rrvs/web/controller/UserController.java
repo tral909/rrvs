@@ -50,7 +50,6 @@ public class UserController implements UserDetailsService {
         return userRepository.get(id);
     }
 
-    //TODO тесты на валидацию create update методов
     @PostMapping
     public ResponseEntity<String> create(@Valid @RequestBody UserTo user, BindingResult result) {
         log.info("create {}", user);
