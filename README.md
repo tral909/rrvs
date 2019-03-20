@@ -29,7 +29,14 @@ P.S.: Make sure everything works with latest version that is on github :)
 P.P.S.: Asume that your API will be used by a frontend developer to build frontend on top of that.
 
 -----------------------------
+### Docs and tools:
 
-REST documentation - apiary.apib (https://app.apiary.io/)
++ REST documentation - apiary.apib (https://app.apiary.io/)
++ Database schema - schema.jpg, schema.xml (https://www.draw.io/)
 
-Database schema - schema.jpg, schema.xml (https://www.draw.io/)
+### Build project
+```$ cd dir_to_project```  
+```$ mvn clean package```
+### Run
+```$ cd target```  
+```java -jar rrvs-0.0.1-SNAPSHOT.jar --spring.config.location=application.properties```

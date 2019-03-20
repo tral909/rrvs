@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserController userController;
 
-    //TODO вынести настройки БД и времени голосования в отдельный проперти
+    //TODO добавить slf4j config
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

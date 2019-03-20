@@ -3,21 +3,17 @@ package ru.regorov.rrvs.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import ru.regorov.rrvs.web.json.JacksonObjectMapper;
 
 @Configuration
 public class AppConfig {
 
-    @Bean
+    // moved to application.properties
+    /*@Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+
         ////// start standalone server for multiple connections to database
         //cd C:\Users\Roman\.m2\repository\org\hsqldb\hsqldb\2.4.1
         //mkdir db; cd db
@@ -38,7 +34,7 @@ public class AppConfig {
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchema, initData);
         DatabasePopulatorUtils.execute(databasePopulator, dataSource);
         return dataSource;
-    }
+    }*/
 
     @Bean
     public ObjectMapper objectMapper() {

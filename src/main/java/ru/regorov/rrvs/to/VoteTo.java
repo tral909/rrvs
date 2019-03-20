@@ -2,14 +2,12 @@ package ru.regorov.rrvs.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class VoteTo extends BaseTo {
 
     @NotNull
-    @Column(name = "date", nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate date;
 
