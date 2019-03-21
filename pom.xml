@@ -65,7 +65,7 @@
         <resources>
             <resource>
                 <directory>${resources.dir}</directory>
-                <targetPath>${project.build.directory}</targetPath>
+                <targetPath>${project.build.directory}/config</targetPath>
                 <includes>
                     <include>application.properties</include>
                 </includes>

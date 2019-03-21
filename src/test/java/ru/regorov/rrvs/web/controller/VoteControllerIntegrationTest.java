@@ -38,7 +38,7 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc(secure = false)
+@AutoConfigureMockMvc
 @Transactional
 public class VoteControllerIntegrationTest {
 

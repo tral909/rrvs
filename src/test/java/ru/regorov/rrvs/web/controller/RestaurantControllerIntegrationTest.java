@@ -32,7 +32,7 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc(secure = false)
+@AutoConfigureMockMvc
 @Transactional
 public class RestaurantControllerIntegrationTest {
 

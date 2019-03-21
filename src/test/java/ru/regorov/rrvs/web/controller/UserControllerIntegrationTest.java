@@ -27,7 +27,7 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc(secure = false)
+@AutoConfigureMockMvc
 @Transactional
 public class UserControllerIntegrationTest {
 
