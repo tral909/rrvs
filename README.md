@@ -39,4 +39,4 @@ P.P.S.: Asume that your API will be used by a frontend developer to build fronte
 ```$ mvn clean package```
 ### Run
 ```$ cd target```  
-```java -jar rrvs-0.0.1-SNAPSHOT.jar --spring.config.location=application.properties```
+```java -jar rrvs-0.0.1-SNAPSHOT.jar```
