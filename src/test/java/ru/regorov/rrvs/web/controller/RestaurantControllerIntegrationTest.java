@@ -37,10 +37,10 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 public class RestaurantControllerIntegrationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    RestaurantRepository restaurantRepo;
+    private RestaurantRepository restaurantRepo;
 
     @Test
     public void testGetAll() throws Exception {

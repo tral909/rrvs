@@ -43,13 +43,13 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 public class VoteControllerIntegrationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    VoteRepository voteRepo;
+    private VoteRepository voteRepo;
 
     @LocalServerPort
-    int srvPort;
+    private int srvPort;
 
     @Value("#{T(java.time.LocalTime).parse('${end.voting.time}')}")
     private LocalTime END_VOTING_TIME;

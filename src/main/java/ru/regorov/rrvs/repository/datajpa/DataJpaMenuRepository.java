@@ -14,7 +14,7 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 public class DataJpaMenuRepository implements MenuRepository {
 
     @Autowired
-    CrudMenuRepository menuRepository;
+    private CrudMenuRepository menuRepository;
 
     @Override
     public Menu get(int id) {

@@ -31,7 +31,7 @@ public class RestaurantController {
     static final String REST_URL = "/restaurants";
 
     @Autowired
-    RestaurantRepository restaurantRepo;
+    private RestaurantRepository restaurantRepo;
 
     @GetMapping
     public List<RestaurantTo> getAllRests() {

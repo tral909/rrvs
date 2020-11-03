@@ -17,7 +17,7 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 public class DataJpaRestaurantRepository implements RestaurantRepository {
 
     @Autowired
-    CrudRestaurantRepository restaurantRepo;
+    private CrudRestaurantRepository restaurantRepo;
 
     @Override
     public Restaurant get(int id) {

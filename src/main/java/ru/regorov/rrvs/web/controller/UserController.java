@@ -33,10 +33,10 @@ public class UserController implements UserDetailsService {
     static final String REST_URL = "/users";
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<User> getAll() {

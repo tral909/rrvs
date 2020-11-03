@@ -32,7 +32,7 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.*;
 public class UserControllerIntegrationTest {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private MockMvc mockMvc;

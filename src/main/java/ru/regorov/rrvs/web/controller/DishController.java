@@ -24,7 +24,7 @@ public class DishController {
     static final String REST_URL = "/dishes";
 
     @Autowired
-    DishRepository dishRepo;
+    private DishRepository dishRepo;
 
     @GetMapping
     public List<Dish> getAll() {

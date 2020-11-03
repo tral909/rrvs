@@ -15,13 +15,7 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 @Repository
 public class DataJpaVoteRepository implements VoteRepository {
     @Autowired
-    CrudVoteRepository voteRepo;
-
-    @Autowired
-    CrudUserRepository userRepo;
-
-    @Autowired
-    CrudRestaurantRepository restRepo;
+    private CrudVoteRepository voteRepo;
 
     @Override
     public Vote get(int id, int userId) {

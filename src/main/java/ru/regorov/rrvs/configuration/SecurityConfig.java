@@ -17,7 +17,7 @@ import ru.regorov.rrvs.web.controller.UserController;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserController userController;
+    private UserController userController;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

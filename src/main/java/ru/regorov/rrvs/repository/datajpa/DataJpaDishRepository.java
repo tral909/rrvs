@@ -14,7 +14,7 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNotFoundWithId;
 public class DataJpaDishRepository implements DishRepository {
 
     @Autowired
-    CrudDishRepository dishRepository;
+    private CrudDishRepository dishRepository;
 
     @Override
     public Dish get(int id) {

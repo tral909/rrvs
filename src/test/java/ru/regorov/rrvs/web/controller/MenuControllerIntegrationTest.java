@@ -35,10 +35,10 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 public class MenuControllerIntegrationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    MenuRepository menuRepo;
+    private MenuRepository menuRepo;
 
     @Test
     public void testGetAll() throws Exception {

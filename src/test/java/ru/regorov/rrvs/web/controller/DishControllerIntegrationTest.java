@@ -24,6 +24,7 @@ import static ru.regorov.rrvs.web.controller.DishController.REST_URL;
 import static ru.regorov.rrvs.web.testdata.DishTestData.*;
 import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 
+// TODO сделать AbstractControllerTest, куда вынести mockMvc и аннотации над классами
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,10 +32,10 @@ import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 public class DishControllerIntegrationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    DishRepository dishRepo;
+    private DishRepository dishRepo;
 
     @Test
     public void testGetAll() throws Exception {

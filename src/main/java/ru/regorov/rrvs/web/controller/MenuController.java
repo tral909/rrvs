@@ -26,13 +26,13 @@ public class MenuController {
     static final String REST_URL = "/menus";
 
     @Autowired
-    MenuRepository menuRepo;
+    private MenuRepository menuRepo;
 
     @Autowired
-    RestaurantRepository restRepo;
+    private RestaurantRepository restRepo;
 
     @Autowired
-    DishRepository dishRepo;
+    private DishRepository dishRepo;
 
     @GetMapping
     public List<MenuTo> getAll() {
