@@ -11,7 +11,7 @@ import ru.regorov.rrvs.model.Dish;
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE from Dish d WHERE d.id=:id")
+    @Query("DELETE from Dish d WHERE d.id = :id")
     int delete(@Param("id") int id);
 
     @Transactional

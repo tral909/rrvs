@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.regorov.rrvs.util.ValidationUtil;
-import ru.regorov.rrvs.util.exceptions.*;
+import ru.regorov.rrvs.util.exceptions.EndVoteException;
+import ru.regorov.rrvs.util.exceptions.ErrorType;
+import ru.regorov.rrvs.util.exceptions.IllegalRequestDataException;
+import ru.regorov.rrvs.util.exceptions.NotFoundException;
+import ru.regorov.rrvs.util.exceptions.RestError;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
-    private static Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
     private static final String USER_UNIQUE_LOGIN = "user_unique_login_idx";
     private static final String USER_ROLE_UNIQUE = "user_roles_idx";
     private static final String RESTAURANT_UNIQUE_PHONE = "restaurant_unique_phone_idx";

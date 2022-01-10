@@ -22,7 +22,9 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.regorov.rrvs.util.ValidationUtil.*;
+import static ru.regorov.rrvs.util.ValidationUtil.assureIdConsistent;
+import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
+import static ru.regorov.rrvs.util.ValidationUtil.handleValidationErrors;
 
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
