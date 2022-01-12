@@ -2,18 +2,18 @@ package ru.regorov.rrvs.web.controller;
 
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
@@ -36,14 +36,8 @@ import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.VoteController.REST_URL;
 import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
-@Transactional
-public class VoteControllerIntegrationTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class VoteControllerIntegrationTest extends AbstractControllerTest {
 
     @Autowired
     private VoteRepository voteRepo;

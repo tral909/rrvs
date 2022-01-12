@@ -1,15 +1,9 @@
 package ru.regorov.rrvs.web.controller;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 import ru.regorov.rrvs.model.User;
 import ru.regorov.rrvs.repository.UserRepository;
 import ru.regorov.rrvs.to.UserTo;
@@ -18,24 +12,32 @@ import ru.regorov.rrvs.web.json.JsonUtil;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.UserController.REST_URL;
-import static ru.regorov.rrvs.web.testdata.UserTestData.*;
+import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER1_ID;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER3;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER4;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER5;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER6;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER7;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER8;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USERS;
+import static ru.regorov.rrvs.web.testdata.UserTestData.assertMatch;
+import static ru.regorov.rrvs.web.testdata.UserTestData.getCreated;
+import static ru.regorov.rrvs.web.testdata.UserTestData.getUpdated;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
-public class UserControllerIntegrationTest {
+public class UserControllerIntegrationTest extends AbstractControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Test
     public void testGetAll() throws Exception {

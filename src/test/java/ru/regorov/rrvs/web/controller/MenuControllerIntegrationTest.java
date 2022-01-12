@@ -1,15 +1,9 @@
 package ru.regorov.rrvs.web.controller;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 import ru.regorov.rrvs.model.Menu;
 import ru.regorov.rrvs.repository.MenuRepository;
 import ru.regorov.rrvs.to.MenuTo;
@@ -19,23 +13,24 @@ import ru.regorov.rrvs.web.testdata.MenuToTestData;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.regorov.rrvs.util.MenuUtil.asTo;
 import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.MenuController.REST_URL;
-import static ru.regorov.rrvs.web.testdata.MenuToTestData.*;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO1_ID;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO2;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO3;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO4;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO5;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.assertMatch;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.getCreated;
 import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
-public class MenuControllerIntegrationTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Autowired
     private MenuRepository menuRepo;

@@ -1,38 +1,55 @@
 package ru.regorov.rrvs.web.controller;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 import ru.regorov.rrvs.model.Dish;
 import ru.regorov.rrvs.repository.DishRepository;
 import ru.regorov.rrvs.web.json.JsonUtil;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.DishController.REST_URL;
-import static ru.regorov.rrvs.web.testdata.DishTestData.*;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH1;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH10;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH11;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH12;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH13;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH14;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH15;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH16;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH17;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH18;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH19;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH1_ID;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH2;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH20;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH21;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH22;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH23;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH24;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH25;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH3;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH4;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH5;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH6;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH7;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH8;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH9;
+import static ru.regorov.rrvs.web.testdata.DishTestData.assertMatch;
+import static ru.regorov.rrvs.web.testdata.DishTestData.getCreated;
+import static ru.regorov.rrvs.web.testdata.DishTestData.getUpdated;
 import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 
-// TODO сделать AbstractControllerTest, куда вынести mockMvc и аннотации над классами
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
-public class DishControllerIntegrationTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class DishControllerIntegrationTest extends AbstractControllerTest {
 
     @Autowired
     private DishRepository dishRepo;
