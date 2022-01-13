@@ -55,7 +55,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", RESTNT1_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -68,7 +68,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testGetMenusByRestId() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus")
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus", RESTNT1_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -83,7 +83,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void getMenusByRestIdAndDate() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/filter?date=2019-01-26")
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus/filter?date=2019-01-26", RESTNT1_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -105,7 +105,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void getDishesByRestIdAndMenuId() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + RESTNT1_ID + "/menus/" + 1)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus/{id}", RESTNT1_ID, 1)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -137,7 +137,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     @Test
     public void testUpdate() throws Exception {
         Restaurant updated = getUpdated();
-        mockMvc.perform(put(REST_URL + "/" + updated.getId())
+        mockMvc.perform(put(REST_URL + "/{id}", updated.getId())
                 .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -148,7 +148,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/" + RESTNT1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", RESTNT1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

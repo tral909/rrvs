@@ -50,7 +50,7 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + MENU_TO1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", MENU_TO1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -81,10 +81,8 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testAppendDishToMenu() throws Exception {
-        mockMvc.perform(post(MenuController.REST_URL + "/" +
-                            MENU_TO1_ID +
-                            DishController.REST_URL +
-                            "/" + 3)
+        mockMvc.perform(post(MenuController.REST_URL + "/{id}"
+                        + DishController.REST_URL + "/{id}", MENU_TO1_ID, 3)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -99,9 +97,8 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDeleteDishFromMenu() throws Exception {
-        mockMvc.perform(delete(MenuController.REST_URL + "/" +
-                            MENU_TO1_ID + DishController.REST_URL +
-                            "/" + 1)
+        mockMvc.perform(delete(MenuController.REST_URL + "/{id}"
+                             + DishController.REST_URL + "/{id}", MENU_TO1_ID, 1)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -114,7 +111,7 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/" + MENU_TO1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", MENU_TO1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

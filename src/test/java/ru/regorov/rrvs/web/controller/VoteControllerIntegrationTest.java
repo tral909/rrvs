@@ -71,7 +71,7 @@ public class VoteControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + 1)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", 1)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -106,7 +106,7 @@ public class VoteControllerIntegrationTest extends AbstractControllerTest {
         if (isEndVoting) {
             assertThat(result.getStatusCode(), equalTo(HttpStatus.CONFLICT));
             if (result.hasBody()) {
-                String responseTxt = result.getBody().toString();
+                String responseTxt = result.getBody();
                 String errMsg = JsonPath.parse(responseTxt).read("$.details");
                 assertThat(errMsg, equalTo("Can not vote or change your choice after 11:00"));
             }
@@ -142,7 +142,7 @@ public class VoteControllerIntegrationTest extends AbstractControllerTest {
     @Test
     public void testDelete() throws Exception {
         int userId = 1;
-        mockMvc.perform(delete(REST_URL + "/" + 1)
+        mockMvc.perform(delete(REST_URL + "/{id}", 1)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

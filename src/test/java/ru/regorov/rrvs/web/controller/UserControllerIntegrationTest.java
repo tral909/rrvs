@@ -54,7 +54,7 @@ public class UserControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + USER1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", USER1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -86,7 +86,7 @@ public class UserControllerIntegrationTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         User expected = getUpdated();
         UserTo updatedTo = UserUtil.asTo(expected);
-        mockMvc.perform(put(REST_URL + "/" + expected.getId())
+        mockMvc.perform(put(REST_URL + "/{id}", expected.getId())
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JsonUtil.writeValue(updatedTo)))
@@ -97,7 +97,7 @@ public class UserControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/" + USER1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", USER1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

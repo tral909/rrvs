@@ -69,7 +69,7 @@ public class DishControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/" + DISH1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", DISH1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -99,7 +99,7 @@ public class DishControllerIntegrationTest extends AbstractControllerTest {
     @Test
     public void testUpdate() throws Exception {
         Dish updated = getUpdated();
-        mockMvc.perform(put(REST_URL + "/" + updated.getId())
+        mockMvc.perform(put(REST_URL + "/{id}", updated.getId())
                 .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -110,7 +110,7 @@ public class DishControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/" + DISH1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", DISH1_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
