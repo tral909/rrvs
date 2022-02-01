@@ -47,7 +47,7 @@ public class RestExceptionHandler {
     //плюс внешние ключи (например голосуем за несуществующий ресторан)
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public RestError handleDataIntergityViolation(DataIntegrityViolationException e) {
+    public RestError handleDataIntegrityViolation(DataIntegrityViolationException e) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
         log.error(e.getLocalizedMessage(), rootCause);
         String message = ValidationUtil.getMessage(rootCause).toLowerCase();
