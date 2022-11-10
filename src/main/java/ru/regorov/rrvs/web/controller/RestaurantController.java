@@ -27,50 +27,50 @@ import static ru.regorov.rrvs.util.ValidationUtil.checkNew;
 import static ru.regorov.rrvs.util.ValidationUtil.handleValidationErrors;
 
 @RestController
-@RequestMapping(RestaurantController.REST_URL)
+@RequestMapping(RestaurantController.RESTAURANTS_URL)
 public class RestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    static final String REST_URL = "/restaurants";
+    static final String RESTAURANTS_URL = "/restaurants";
 
     @Autowired
     private RestaurantRepository restaurantRepo;
 
     @GetMapping
-    public List<RestaurantTo> getAllRests() {
-        log.info("getAll");
+    public List<RestaurantTo> getAllRestaurants() {
+        log.info("getAllRestaurants");
         return RestaurantUtil.asTo(restaurantRepo.getAll());
     }
 
     @GetMapping("/{id}")
-    public RestaurantTo getRest(@PathVariable Integer id) {
-        log.info("get {}", id);
+    public RestaurantTo getRestaurantById(@PathVariable Integer id) {
+        log.info("getRestaurantById [{}]", id);
         return RestaurantUtil.asTo(restaurantRepo.get(id));
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL)
-    public List<MenuTo> getMenusByRestId(@PathVariable Integer restId) {
-        log.info("{}", restId);
-        return MenuUtil.asTo(restaurantRepo.findByRestIdMenus(restId));
+    public List<MenuTo> getMenusByRestaurantId(@PathVariable Integer restId) {
+        log.info("getMenusByRestaurantId [{}]", restId);
+        return MenuUtil.asTo(restaurantRepo.findByRestaurantIdMenus(restId));
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL + "/filter")
-    public List<Menu> getMenusByRestIdAndDate(@PathVariable Integer restId,
-                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                             @RequestParam(value = "date") LocalDate date) {
-        log.info("restId={}, date={}", restId, date);
-        return restaurantRepo.findByRestIdAndDateMenus(restId, date);
+    public List<Menu> getMenusByRestaurantIdAndDate(@PathVariable Integer restId,
+                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                    @RequestParam(value = "date") LocalDate date) {
+        log.info("getMenusByRestaurantIdAndDate [restId={}, date={}]", restId, date);
+        return restaurantRepo.findByRestaurantIdAndDateMenus(restId, date);
     }
 
     @GetMapping("/{restId}" + MenuController.REST_URL + "/{menuId}")
-    public List<Dish> getDishesByRestIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
-        log.info("rest={}, menu={}", restId, menuId);
-        return restaurantRepo.findByRestIdAndMenuIdDishes(restId, menuId);
+    public List<Dish> getDishesByRestaurantIdAndMenuId(@PathVariable Integer restId, @PathVariable Integer menuId) {
+        log.info("getDishesByRestaurantIdAndMenuId [restId={}, menuId={}]", restId, menuId);
+        return restaurantRepo.findByRestaurantIdAndMenuIdDishes(restId, menuId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> createRest(@Valid @RequestBody Restaurant restaurant, BindingResult result) {
-        log.info("create {}", restaurant);
+    public ResponseEntity<String> createRestaurant(@Valid @RequestBody Restaurant restaurant, BindingResult result) {
+        log.info("createRestaurant [{}]", restaurant);
         checkNew(restaurant);
         if (result.hasErrors()) {
             return handleValidationErrors(result);
@@ -80,8 +80,8 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateRest(@Valid @RequestBody Restaurant restaurant, BindingResult result, @PathVariable Integer id) {
-        log.info("update {} with id {}", restaurant, id);
+    public ResponseEntity<String> updateRestaurant(@Valid @RequestBody Restaurant restaurant, BindingResult result, @PathVariable Integer id) {
+        log.info("updateRestaurant [{} with id {}]", restaurant, id);
         assureIdConsistent(restaurant, id);
         if (result.hasErrors()) {
             return handleValidationErrors(result);
@@ -92,8 +92,8 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteRest(@PathVariable Integer id) {
-        log.info("delete {}", id);
+    public void deleteRestaurant(@PathVariable Integer id) {
+        log.info("deleteRestaurant [{}]", id);
         restaurantRepo.delete(id);
     }
 }

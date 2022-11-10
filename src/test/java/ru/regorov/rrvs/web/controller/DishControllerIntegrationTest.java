@@ -29,7 +29,7 @@ import static ru.regorov.rrvs.web.testdata.DishTestData.DISH16;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH17;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH18;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH19;
-import static ru.regorov.rrvs.web.testdata.DishTestData.DISH1_ID;
+import static ru.regorov.rrvs.web.testdata.DishTestData.DISH_ID;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH2;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH20;
 import static ru.regorov.rrvs.web.testdata.DishTestData.DISH21;
@@ -69,7 +69,7 @@ public class DishControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", DISH1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", DISH_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -110,7 +110,7 @@ public class DishControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/{id}", DISH1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", DISH_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.regorov.rrvs.util.MenuUtil.asTo;
 import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.MenuController.REST_URL;
-import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO1_ID;
+import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO_ID;
 import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO2;
 import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO3;
 import static ru.regorov.rrvs.web.testdata.MenuToTestData.MENU_TO4;
@@ -50,7 +50,7 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", MENU_TO1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", MENU_TO_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -58,7 +58,7 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
                 .andReturn();
         String responseTxt = result.getResponse().getContentAsString();
         Menu actual = JsonUtil.readValue(responseTxt, Menu.class);
-        Menu expected = menuRepo.get(MENU_TO1_ID);
+        Menu expected = menuRepo.get(MENU_TO_ID);
         MenuToTestData.assertMatch(actual, expected);
         DishTestData.assertMatchIgnoringOrder(actual.getDishes(), expected.getDishes());
     }
@@ -82,13 +82,13 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
     @Test
     public void testAppendDishToMenu() throws Exception {
         mockMvc.perform(post(MenuController.REST_URL + "/{id}"
-                        + DishController.REST_URL + "/{id}", MENU_TO1_ID, 3)
+                        + DishController.REST_URL + "/{id}", MENU_TO_ID, 3)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent())
                 .andReturn();
-        Menu actualMenu = menuRepo.get(MENU_TO1_ID);
+        Menu actualMenu = menuRepo.get(MENU_TO_ID);
         DishTestData.assertMatchIgnoringOrder(actualMenu.getDishes(),
                 DishTestData.DISH1, DishTestData.DISH3,
                 DishTestData.DISH8, DishTestData.DISH15,
@@ -98,12 +98,12 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
     @Test
     public void testDeleteDishFromMenu() throws Exception {
         mockMvc.perform(delete(MenuController.REST_URL + "/{id}"
-                             + DishController.REST_URL + "/{id}", MENU_TO1_ID, 1)
+                             + DishController.REST_URL + "/{id}", MENU_TO_ID, 1)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        Menu afterMenu = menuRepo.get(MENU_TO1_ID);
+        Menu afterMenu = menuRepo.get(MENU_TO_ID);
         DishTestData.assertMatchIgnoringOrder(afterMenu.getDishes(),
                 DishTestData.DISH8, DishTestData.DISH15,
                 DishTestData.DISH20, DishTestData.DISH21);
@@ -111,7 +111,7 @@ public class MenuControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/{id}", MENU_TO1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", MENU_TO_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

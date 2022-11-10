@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authProvider
                 = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userController);
-        // test NoOpPasswordEncoder.getInstance()
+        // for test use this NoOpPasswordEncoder.getInstance()
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

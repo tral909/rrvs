@@ -22,7 +22,7 @@ import static ru.regorov.rrvs.web.TestUtil.httpBasic;
 import static ru.regorov.rrvs.web.controller.UserController.REST_URL;
 import static ru.regorov.rrvs.web.testdata.UserTestData.ADMIN;
 import static ru.regorov.rrvs.web.testdata.UserTestData.USER;
-import static ru.regorov.rrvs.web.testdata.UserTestData.USER1_ID;
+import static ru.regorov.rrvs.web.testdata.UserTestData.USER_ID;
 import static ru.regorov.rrvs.web.testdata.UserTestData.USER3;
 import static ru.regorov.rrvs.web.testdata.UserTestData.USER4;
 import static ru.regorov.rrvs.web.testdata.UserTestData.USER5;
@@ -54,7 +54,7 @@ public class UserControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", USER1_ID)
+        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", USER_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -97,7 +97,7 @@ public class UserControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/{id}", USER1_ID)
+        mockMvc.perform(delete(REST_URL + "/{id}", USER_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

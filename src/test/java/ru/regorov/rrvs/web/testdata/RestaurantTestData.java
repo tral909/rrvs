@@ -8,25 +8,25 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RestaurantTestData {
-    public static final int RESTNT1_ID = 1;
+    public static final int RESTAURANT_ID = 1;
 
-    public static final Restaurant RESTAURANT1 = new Restaurant(RESTNT1_ID,
+    public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT_ID,
             "CIN CIN",
             "+7(495)2236547",
             "г. Москва, ул. Мирская, д. 12");
-    public static final Restaurant RESTAURANT2 = new Restaurant(RESTNT1_ID + 1,
+    public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT_ID + 1,
             "Старый город",
             "+7(495)1245298",
             "г. Москва, Старый Петровско-Разумовский проезд, д. 21/3");
-    public static final Restaurant RESTAURANT3 = new Restaurant(RESTNT1_ID + 2,
+    public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT_ID + 2,
             "Obed.ru",
             "+7(495)7778878",
             "г. Москва, уд. Строителей, д. 34");
-    public static final Restaurant RESTAURANT4 = new Restaurant(RESTNT1_ID + 3,
+    public static final Restaurant RESTAURANT4 = new Restaurant(RESTAURANT_ID + 3,
             "Клевер",
             "+7(4922)389104",
             "г. Владимир, ул. Красная, д. 15");
-    public static final Restaurant RESTAURANT5 = new Restaurant(RESTNT1_ID + 4,
+    public static final Restaurant RESTAURANT5 = new Restaurant(RESTAURANT_ID + 4,
             "Golden cock",
             "+8(0456)25567890",
             "Riga, Skarnu iela, 22");
@@ -43,7 +43,7 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getUpdated() {
-        return new Restaurant(RESTNT1_ID, "2 CIN", "+7(495)567652", "г. Санкт-Петербург, ул. Артиллерийская, д. 2");
+        return new Restaurant(RESTAURANT_ID, "2 CIN", "+7(495)567652", "г. Санкт-Петербург, ул. Артиллерийская, д. 2");
     }
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {

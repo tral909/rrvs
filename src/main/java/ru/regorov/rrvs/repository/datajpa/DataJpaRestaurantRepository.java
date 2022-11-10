@@ -35,17 +35,17 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
-    public List<Menu> findByRestIdMenus(int id) {
+    public List<Menu> findByRestaurantIdMenus(int id) {
         return restaurantRepo.findByRestIdMenus(id);
     }
 
     @Override
-    public List<Menu> findByRestIdAndDateMenus(int restId, LocalDate date) {
+    public List<Menu> findByRestaurantIdAndDateMenus(int restId, LocalDate date) {
         return restaurantRepo.findByRestIdAndDateMenus(restId, date);
     }
 
     @Override
-    public List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId) {
+    public List<Dish> findByRestaurantIdAndMenuIdDishes(int restId, int menuId) {
         return restaurantRepo.findByRestIdAndMenuIdDishes(restId, menuId);
     }
 

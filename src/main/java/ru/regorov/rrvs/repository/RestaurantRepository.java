@@ -7,12 +7,12 @@ import ru.regorov.rrvs.model.Restaurant;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RestaurantRepository extends AbstractRepository<Restaurant>{
+public interface RestaurantRepository extends AbstractRepository<Restaurant> {
     Restaurant getRef(int id);
 
-    List<Menu> findByRestIdMenus(int restId);
+    List<Menu> findByRestaurantIdMenus(int restId);
 
-    List<Dish> findByRestIdAndMenuIdDishes(int restId, int menuId);
+    List<Dish> findByRestaurantIdAndMenuIdDishes(int restId, int menuId);
 
-    List<Menu> findByRestIdAndDateMenus(int restId, LocalDate date);
+    List<Menu> findByRestaurantIdAndDateMenus(int restId, LocalDate date);
 }

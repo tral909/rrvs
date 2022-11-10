@@ -22,13 +22,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.regorov.rrvs.web.TestUtil.httpBasic;
-import static ru.regorov.rrvs.web.controller.RestaurantController.REST_URL;
+import static ru.regorov.rrvs.web.controller.RestaurantController.RESTAURANTS_URL;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT1;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT2;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT3;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT4;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT5;
-import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTNT1_ID;
+import static ru.regorov.rrvs.web.testdata.RestaurantTestData.RESTAURANT_ID;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.assertMatch;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.getCreated;
 import static ru.regorov.rrvs.web.testdata.RestaurantTestData.getUpdated;
@@ -42,7 +42,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testGetAll() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL)
+        MvcResult result = mockMvc.perform(get(RESTAURANTS_URL)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -55,7 +55,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}", RESTNT1_ID)
+        MvcResult result = mockMvc.perform(get(RESTAURANTS_URL + "/{id}", RESTAURANT_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -67,8 +67,8 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     }
 
     @Test
-    public void testGetMenusByRestId() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus", RESTNT1_ID)
+    public void testGetMenusByRestaurantId() throws Exception {
+        MvcResult result = mockMvc.perform(get(RESTAURANTS_URL + "/{id}/menus", RESTAURANT_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -82,8 +82,8 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     }
 
     @Test
-    public void getMenusByRestIdAndDate() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus/filter?date=2019-01-26", RESTNT1_ID)
+    public void getMenusByRestaurantIdAndDate() throws Exception {
+        MvcResult result = mockMvc.perform(get(RESTAURANTS_URL + "/{id}/menus/filter?date=2019-01-26", RESTAURANT_ID)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -104,8 +104,8 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     }
 
     @Test
-    public void getDishesByRestIdAndMenuId() throws Exception {
-        MvcResult result = mockMvc.perform(get(REST_URL + "/{id}/menus/{id}", RESTNT1_ID, 1)
+    public void getDishesByRestaurantIdAndMenuId() throws Exception {
+        MvcResult result = mockMvc.perform(get(RESTAURANTS_URL + "/{id}/menus/{id}", RESTAURANT_ID, 1)
                 .with(httpBasic(USER))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -121,7 +121,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     @Test
     public void testCreate() throws Exception {
         Restaurant created = getCreated();
-        MvcResult result = mockMvc.perform(post(REST_URL)
+        MvcResult result = mockMvc.perform(post(RESTAURANTS_URL)
                 .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(created))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -137,7 +137,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
     @Test
     public void testUpdate() throws Exception {
         Restaurant updated = getUpdated();
-        mockMvc.perform(put(REST_URL + "/{id}", updated.getId())
+        mockMvc.perform(put(RESTAURANTS_URL + "/{id}", updated.getId())
                 .with(httpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -148,7 +148,7 @@ public class RestaurantControllerIntegrationTest extends AbstractControllerTest 
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + "/{id}", RESTNT1_ID)
+        mockMvc.perform(delete(RESTAURANTS_URL + "/{id}", RESTAURANT_ID)
                 .with(httpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
